@@ -1,0 +1,20 @@
+{
+  "name": "much-selector",
+  "version": "0.0.1",
+  "description": "A serries of webcomponents for making powerful select boxes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "es-dev-server --node-resolve --watch"
+  },
+  "author": "Jachin Rupe <jachin@jachin.rupe.name>",
+  "license": "ISC",
+  "dependencies": {
+    "lit-element": "^2.3.1"
+  },
+  "devDependencies": {
+    "es-dev-server": "^1.56.0",
+    "eslint": "^7.4.0",
+    "prettier": "^2.0.5"
+  }
+}
