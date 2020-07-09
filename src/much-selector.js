@@ -28,18 +28,28 @@ class MuchSelector extends LitElement {
       slot {
         display: none;
       }
+
+      #dropdown {
+        display: none;
+      }
+
+      #dropdown[visible] {
+        display: block;
+      }
     `;
   }
 
   static get properties() {
     return {
       options: {type: Map},
+      showDropdown : {type: Boolean, attribute: false}
     };
   }
 
   constructor() {
     super();
     this.options = new Map();
+    this.showDropdown = false;
   }
 
   firstUpdated() {
@@ -50,12 +60,38 @@ class MuchSelector extends LitElement {
     selectElements.forEach(selectElement => {
       this.options = buildOptionsFromSelecteElement(selectElement);
     });
+
+    this.inputElement = this.shadowRoot.getElementById("input");
+    this.dropdownElement = this.shadowRoot.getElementById("dropdown");
+
+    this.inputElement.addEventListener("input-focus", () => {
+      console.log("<much-selector> input-focus");
+      this.showDropdown = true;
+    });
+
+    this.inputElement.addEventListener("input-blur", () => {
+      console.log("<much-selector> input-blur");
+      this.showDropdown = false;
+    });
   }
 
   render() {
+    const optionTemplates = [];
+    this.options.forEach(option => {
+      optionTemplates.push(html`
+        <much-selector-dropdown-item
+          value="${option.value}"
+          label="${option.label}"
+          ?selected=${option.selected}>
+        </much-selector-dropdown-item`
+       );
+    });
+
     return html`
-      <much-selector-input></much-selector-input>
-      <much-selector-dropdown></much-selector-dropdown>
+      <much-selector-input id="input"></much-selector-input>
+      <much-selector-dropdown id="dropdown" ?visible=${this.showDropdown}>
+        ${optionTemplates}
+      </much-selector-dropdown>
       <slot></slot>
     `;
   }

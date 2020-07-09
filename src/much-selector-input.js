@@ -6,8 +6,6 @@ class MuchSelectorInput extends LitElement {
       :host {
         display: block;
         border: solid 1px gray;
-        padding: 16px;
-        max-width: 800px;
       }
     `;
   }
@@ -23,9 +21,20 @@ class MuchSelectorInput extends LitElement {
     this.selectedValues = new Map();
   }
 
+  firstUpdated() {
+    const inputElement = this.shadowRoot.getElementById("text-input");
+    inputElement.addEventListener("focus", () => {
+       this.dispatchEvent(new Event("input-focus"));
+    });
+
+    inputElement.addEventListener("blur", () => {
+       this.dispatchEvent(new Event("input-blur"));
+    });
+  }
+
   render() {
     return html`
-      <input type="text"></input>
+      <input type="text" id="text-input"></input>
     `;
   }
 }

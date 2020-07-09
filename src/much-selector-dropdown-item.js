@@ -7,7 +7,10 @@ class MuchSelectorDropdownItem extends LitElement {
         display: block;
         border: solid 1px gray;
         padding: 16px;
-        max-width: 800px;
+      }
+
+      .selected {
+        background-color: #ADD8E6;
       }
     `;
   }
@@ -27,12 +30,25 @@ class MuchSelectorDropdownItem extends LitElement {
     this.label = null;
     this.highlighted = false;
     this.selected = false;
+  }
 
+  cssClasses() {
+    const classes = [];
+
+    if (this.highlighted) {
+      classes.push("highlighted");
+    }
+
+    if (this.selected) {
+      classes.push("selected");
+    }
+
+    return classes.join(" ");
   }
 
   render() {
     return html`
-      <div>
+      <div class=${this.cssClasses()}>
         ${this.label}
       </div>
     `;
