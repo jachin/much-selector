@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
+import { styleMap } from 'lit-html/directives/style-map';
 
 import {MuchOption} from "./much-option.js";
 
@@ -87,9 +88,17 @@ class MuchSelector extends LitElement {
        );
     });
 
+    const rect = this.getBoundingClientRect();
+
+    const dropdownStyles = { top: `${rect.bottom}.px`, left: `${rect.left}` };
+
     return html`
       <much-selector-input id="input"></much-selector-input>
-      <much-selector-dropdown id="dropdown" ?visible=${this.showDropdown}>
+      <much-selector-dropdown
+        id="dropdown"
+        ?visible=${this.showDropdown}
+        style=${styleMap(dropdownStyles)}
+       >
         ${optionTemplates}
       </much-selector-dropdown>
       <slot></slot>
