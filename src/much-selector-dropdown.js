@@ -6,6 +6,8 @@ class MuchSelectorDropdown extends LitElement {
       :host {
         display: block;
         position: absolute;
+        z-index: 5;
+        background-color: white;
       }
     `;
   }

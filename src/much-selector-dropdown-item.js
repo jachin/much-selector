@@ -6,11 +6,20 @@ class MuchSelectorDropdownItem extends LitElement {
       :host {
         display: block;
         border: solid 1px gray;
-        padding: 16px;
+        padding: 0px;
+        cursor: pointer;
+      }
+
+      #item {
+        padding: 8px;
       }
 
       .selected {
         background-color: #ADD8E6;
+      }
+
+      .highlighted {
+        background-color: #1E90FF;
       }
     `;
   }
@@ -30,6 +39,14 @@ class MuchSelectorDropdownItem extends LitElement {
     this.label = null;
     this.highlighted = false;
     this.selected = false;
+
+    this.addEventListener("mouseover", () => {
+      this.highlighted = true;
+    });
+
+    this.addEventListener("mouseout", () => {
+      this.highlighted = false;
+    });
   }
 
   cssClasses() {
@@ -48,7 +65,7 @@ class MuchSelectorDropdownItem extends LitElement {
 
   render() {
     return html`
-      <div class=${this.cssClasses()}>
+      <div id="item" class=${this.cssClasses()}>
         ${this.label}
       </div>
     `;
