@@ -1,4 +1,4 @@
-import {LitElement, html, css} from 'lit-element';
+import { LitElement, html, css } from "lit-element";
 
 class MuchSelectorInput extends LitElement {
   static get styles() {
@@ -12,7 +12,7 @@ class MuchSelectorInput extends LitElement {
 
   static get properties() {
     return {
-      selectedValues: {type: Map},
+      selectedValues: { type: Map },
     };
   }
 
@@ -24,18 +24,16 @@ class MuchSelectorInput extends LitElement {
   firstUpdated() {
     const inputElement = this.shadowRoot.getElementById("text-input");
     inputElement.addEventListener("focus", () => {
-       this.dispatchEvent(new Event("input-focus"));
+      this.dispatchEvent(new Event("input-focus"));
     });
 
     inputElement.addEventListener("blur", () => {
-       this.dispatchEvent(new Event("input-blur"));
+      this.dispatchEvent(new Event("input-blur"));
     });
   }
 
   render() {
-    return html`
-      <input type="text" id="text-input"/>
-    `;
+    return html` <input type="text" id="text-input" /> `;
   }
 }
 

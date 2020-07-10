@@ -1,4 +1,4 @@
-import {LitElement, html, css} from 'lit-element';
+import { LitElement, html, css } from "lit-element";
 
 class MuchSelectorDropdownItem extends LitElement {
   static get styles() {
@@ -15,21 +15,21 @@ class MuchSelectorDropdownItem extends LitElement {
       }
 
       .selected {
-        background-color: #ADD8E6;
+        background-color: #add8e6;
       }
 
       .highlighted {
-        background-color: #1E90FF;
+        background-color: #1e90ff;
       }
     `;
   }
 
   static get properties() {
     return {
-      value: {type: String},
-      label: {type: String},
-      highlighted: {type: Boolean},
-      selected: {type: Boolean}
+      value: { type: String },
+      label: { type: String },
+      highlighted: { type: Boolean },
+      selected: { type: Boolean },
     };
   }
 
@@ -48,23 +48,21 @@ class MuchSelectorDropdownItem extends LitElement {
       this.highlighted = false;
     });
   }
-  
-  firstUpdated() {
 
+  firstUpdated() {
     /**
      * TODO This needs to be a "mousedown" event and not a "click" event. Why is that?
      */
     this.addEventListener("mousedown", () => {
       this.dispatchEvent(
-          new CustomEvent("item-selected",
-            { bubbles: true,
-              composed: true,
-              detail: {itemValue: this.value}
-            })
+        new CustomEvent("item-selected", {
+          bubbles: true,
+          composed: true,
+          detail: { itemValue: this.value },
+        })
       );
     });
   }
-
 
   cssClasses() {
     const classes = [];

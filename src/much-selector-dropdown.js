@@ -1,4 +1,4 @@
-import {LitElement, html, css} from 'lit-element';
+import { LitElement, html, css } from "lit-element";
 
 class MuchSelectorDropdown extends LitElement {
   static get styles() {
@@ -14,7 +14,7 @@ class MuchSelectorDropdown extends LitElement {
 
   static get properties() {
     return {
-      visible: {type: Boolean},
+      visible: { type: Boolean },
     };
   }
 

@@ -45,4 +45,4 @@ class MuchOption {
   }
 }
 
-export {MuchOption};
+export { MuchOption };
