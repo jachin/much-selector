@@ -12,11 +12,7 @@ const buildOptionsFromSelecteElement = selectElement => {
     option.index = optionIndex;
     if (optionElement.hasAttribute("selected")) {
       const optionSelectedValue = optionElement.getAttribute("selected");
-      if (optionSelectedValue === "false") {
-        option.selected = false;
-      } else {
-        option.selected = true;
-      }
+      option.selected = optionSelectedValue !== "false";
     }
     options.set(option.value, option);
   });
@@ -73,6 +69,12 @@ class MuchSelector extends LitElement {
     this.inputElement.addEventListener("input-blur", () => {
       console.log("<much-selector> input-blur");
       this.showDropdown = false;
+    });
+
+    this.addEventListener("item-selected", e => {
+      const selectedOption = this.options.get(e.detail.itemValue);
+      selectedOption.selected = true;
+      this.options.set(e.detail.itemValue, selectedOption);
     });
   }
 

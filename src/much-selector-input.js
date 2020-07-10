@@ -34,7 +34,7 @@ class MuchSelectorInput extends LitElement {
 
   render() {
     return html`
-      <input type="text" id="text-input"></input>
+      <input type="text" id="text-input"/>
     `;
   }
 }

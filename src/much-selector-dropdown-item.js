@@ -48,6 +48,23 @@ class MuchSelectorDropdownItem extends LitElement {
       this.highlighted = false;
     });
   }
+  
+  firstUpdated() {
+
+    /**
+     * TODO This needs to be a "mousedown" event and not a "click" event. Why is that?
+     */
+    this.addEventListener("mousedown", () => {
+      this.dispatchEvent(
+          new CustomEvent("item-selected",
+            { bubbles: true,
+              composed: true,
+              detail: {itemValue: this.value}
+            })
+      );
+    });
+  }
+
 
   cssClasses() {
     const classes = [];
