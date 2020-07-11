@@ -2,9 +2,10 @@ import { LitElement, html, css } from "lit-element";
 import { styleMap } from "lit-html/directives/style-map";
 
 import { MuchOption } from "./much-option.js";
+import { MuchOptionList } from "./much-option-list";
 
 const buildOptionsFromSelecteElement = (selectElement) => {
-  const options = new Map();
+  const options = new MuchOptionList();
   const optionElements = selectElement.querySelectorAll("option");
   optionElements.forEach((optionElement, optionIndex) => {
     const option = new MuchOption(optionElement.getAttribute("value"));
@@ -14,7 +15,7 @@ const buildOptionsFromSelecteElement = (selectElement) => {
       const optionSelectedValue = optionElement.getAttribute("selected");
       option.selected = optionSelectedValue !== "false";
     }
-    options.set(option.value, option);
+    options.add(option);
   });
   return options;
 };
@@ -38,14 +39,14 @@ class MuchSelector extends LitElement {
 
   static get properties() {
     return {
-      options: { type: Map },
+      options: { type: MuchOptionList },
       showDropdown: { type: Boolean, attribute: false },
     };
   }
 
   constructor() {
     super();
-    this.options = new Map();
+    this.options = new MuchOptionList();
     this.showDropdown = false;
   }
 
@@ -75,14 +76,12 @@ class MuchSelector extends LitElement {
   }
 
   itemSelectedHandler(event) {
-    const selectedOption = this.options.get(event.detail.itemValue);
-    selectedOption.selected = true;
-    this.options.set(e.detail.itemValue, selectedOption);
+    this.options.selectByValue(event.detail.itemValue);
   }
 
   render() {
     const optionTemplates = [];
-    this.options.forEach((option) => {
+    this.options.toArray().forEach((option) => {
       optionTemplates.push(html`
         <much-selector-dropdown-item
           value="${option.value}"
