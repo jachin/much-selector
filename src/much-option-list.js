@@ -35,8 +35,6 @@ class MuchOptionList {
       throw `Unable to select a option with the value of: ${value}`;
     }
     option.selected = true;
-    //TODO Do I really need to set it again?
-    this.options.set(option.value, option);
   }
 
   selectOption(option) {
@@ -52,8 +50,6 @@ class MuchOptionList {
       throw `Unable to deselect a option with the value of: ${value}`;
     }
     option.selected = false;
-    //TODO Do I really need to set it again?
-    this.options.set(option.value, option);
   }
 
   deselectOption(option) {
