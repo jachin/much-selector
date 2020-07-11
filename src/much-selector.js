@@ -71,11 +71,13 @@ class MuchSelector extends LitElement {
       this.showDropdown = false;
     });
 
-    this.addEventListener("item-selected", (e) => {
-      const selectedOption = this.options.get(e.detail.itemValue);
-      selectedOption.selected = true;
-      this.options.set(e.detail.itemValue, selectedOption);
-    });
+    this.addEventListener("item-selected", this.itemSelectedHandler);
+  }
+
+  itemSelectedHandler(event) {
+    const selectedOption = this.options.get(event.detail.itemValue);
+    selectedOption.selected = true;
+    this.options.set(e.detail.itemValue, selectedOption);
   }
 
   render() {
