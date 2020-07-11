@@ -71,4 +71,28 @@ describe("Much Option List", () => {
 
     expect(optionList.selectedOptions).toStrictEqual([red]);
   });
+
+  test("select an option", () => {
+    optionList.add(red);
+    optionList.selectOption(red);
+
+    expect(optionList.selectedOptions).toStrictEqual([red]);
+  });
+
+  test("deselect an option", () => {
+    optionList.add(red);
+    optionList.selectOption(red);
+    optionList.deselectOption(red);
+
+    expect(optionList.selectedOptions).toStrictEqual([]);
+  });
+
+  test("select one option", () => {
+    optionList.add(red);
+    optionList.add(green);
+    optionList.selectOneOption(red);
+    optionList.selectOneOption(green);
+
+    expect(optionList.selectedOptions).toStrictEqual([green]);
+  });
 });
