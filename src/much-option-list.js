@@ -83,6 +83,18 @@ class MuchOptionList {
     return selectedOptions;
   }
 
+  // TODO make this "pair" thing a type.
+  get selectedOptionValueLabelPairs() {
+    const selectedValueLabelPairs = [];
+    this.selectedOptions.forEach((selectedOption) => {
+      selectedValueLabelPairs.push([
+        selectedOption.value,
+        selectedOption.label,
+      ]);
+    });
+    return selectedValueLabelPairs;
+  }
+
   clear() {
     this.options.clear();
   }

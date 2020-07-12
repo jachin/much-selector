@@ -60,6 +60,8 @@ class MuchSelector extends LitElement {
     });
 
     this.inputElement = this.shadowRoot.getElementById("input");
+    this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
+
     this.dropdownElement = this.shadowRoot.getElementById("dropdown");
 
     this.inputElement.addEventListener("input-focus", () => {
@@ -77,6 +79,7 @@ class MuchSelector extends LitElement {
 
   itemSelectedHandler(event) {
     this.options.selectByValue(event.detail.itemValue);
+    this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
   }
 
   render() {

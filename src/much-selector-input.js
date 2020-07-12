@@ -12,13 +12,13 @@ class MuchSelectorInput extends LitElement {
 
   static get properties() {
     return {
-      selectedValues: { type: Map },
+      selectedValues: { type: Array },
     };
   }
 
   constructor() {
     super();
-    this.selectedValues = new Map();
+    this.selectedValues = [];
   }
 
   firstUpdated() {
@@ -33,7 +33,14 @@ class MuchSelectorInput extends LitElement {
   }
 
   render() {
-    return html` <input type="text" id="text-input" /> `;
+    const selectedValuesHtml = this.selectedValues.map(
+      (selectedValuePair) => html`<span>${selectedValuePair[1]}</span>`
+    );
+
+    return html` <div>
+      ${selectedValuesHtml}
+      <input type="text" id="text-input" />
+    </div>`;
   }
 }
 
