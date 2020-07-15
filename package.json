@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "A serries of webcomponents for making powerful select boxes",
   "main": "index.js",
+  "repository": "https://github.com/jachin/much-selector",
   "scripts": {
     "test": "jest",
     "serve": "es-dev-server --node-resolve --watch"
