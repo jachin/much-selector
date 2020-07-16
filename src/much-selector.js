@@ -78,20 +78,21 @@ class MuchSelector extends LitElement {
   }
 
   itemSelectedHandler(event) {
-    this.options.selectByValue(event.detail.itemValue);
+    this.options.selectOneByValue(event.detail.itemValue);
     this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
   }
 
   render() {
-    const optionTemplates = [];
-    this.options.toArray().forEach((option) => {
-      optionTemplates.push(html`
-        <much-selector-dropdown-item
-          value="${option.value}"
-          label="${option.label}"
-          ?selected=${option.selected}>
-        </much-selector-dropdown-item`);
-    });
+    const optionTemplates = this.options
+      .toArray()
+      .map(
+        (option) =>
+          html`<much-selector-dropdown-item
+            value="${option.value}"
+            label="${option.label}"
+            ?selected=${option.selected}
+          ></much-selector-dropdown-item>`
+      );
 
     const rect = this.getBoundingClientRect();
 
