@@ -6,6 +6,14 @@ class MuchOptionList {
   }
 
   add(option) {
+    if (!this.options.has(option.value)) {
+      this.addStrict(option);
+    } else {
+      console.warn(`There is already a value of: ${option.value}`);
+    }
+  }
+
+  addStrict(option) {
     if (!(option instanceof MuchOption)) {
       throw "You can only add a MuchOption to a MuchOptionList";
     }

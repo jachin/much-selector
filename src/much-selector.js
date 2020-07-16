@@ -8,7 +8,13 @@ const buildOptionsFromSelecteElement = (selectElement) => {
   const options = new MuchOptionList();
   const optionElements = selectElement.querySelectorAll("option");
   optionElements.forEach((optionElement, optionIndex) => {
-    const option = new MuchOption(optionElement.getAttribute("value"));
+    let value;
+    if (optionElement.hasAttribute(value)) {
+      value = optionElement.getAttribute("value");
+    } else {
+      value = optionElement.innerText;
+    }
+    const option = new MuchOption(value);
     option.label = optionElement.innerText;
     option.index = optionIndex;
     if (optionElement.hasAttribute("selected")) {
@@ -65,12 +71,10 @@ class MuchSelector extends LitElement {
     this.dropdownElement = this.shadowRoot.getElementById("dropdown");
 
     this.inputElement.addEventListener("input-focus", () => {
-      console.log("<much-selector> input-focus");
       this.showDropdown = true;
     });
 
     this.inputElement.addEventListener("input-blur", () => {
-      console.log("<much-selector> input-blur");
       this.showDropdown = false;
     });
 
