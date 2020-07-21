@@ -1,8 +1,10 @@
 import { LitElement, html, css } from "lit-element";
+import { render } from "lit-html";
 import { styleMap } from "lit-html/directives/style-map";
 
 import { MuchOption } from "./much-option.js";
 import { MuchOptionList } from "./much-option-list";
+import { highlight } from "./highlight";
 
 const buildOptionsFromSelecteElement = (selectElement) => {
   const options = new MuchOptionList();
@@ -79,6 +81,15 @@ class MuchSelector extends LitElement {
     });
 
     this.addEventListener("item-selected", this.itemSelectedHandler);
+
+    this.inputElement.addEventListener("input-keydown", e => {
+      console.log("input-keydown listener", e);
+    })
+
+    this.inputElement.addEventListener("input-keyup", e => {
+      console.log("input-keyup listener", e);
+      this.options.search(e.detail.query);
+    })
   }
 
   itemSelectedHandler(event) {
@@ -87,15 +98,19 @@ class MuchSelector extends LitElement {
   }
 
   render() {
+    this.options.search("mi");
+
+
     const optionTemplates = this.options
       .toArray()
       .map(
-        (option) =>
-          html`<much-selector-dropdown-item
+        (option) => {
+          return html`<much-selector-dropdown-item
             value="${option.value}"
             label="${option.label}"
             ?selected=${option.selected}
-          ></much-selector-dropdown-item>`
+          ></much-selector-dropdown-item>`;
+        }
       );
 
     const rect = this.getBoundingClientRect();

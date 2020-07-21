@@ -30,6 +30,38 @@ class MuchSelectorInput extends LitElement {
     inputElement.addEventListener("blur", () => {
       this.dispatchEvent(new Event("input-blur"));
     });
+
+    inputElement.addEventListener("keydown", e => {
+      console.log("keydown", e.code, e.target.value);
+      const inputValue = e.target.value;
+      if (typeof inputValue !== "string" ) {
+        return;
+      }
+
+      if (inputValue.length < 1) {
+        return;
+      }
+      this.dispatchEvent(new CustomEvent("input-keydown", {
+        detail: {
+          query: inputValue
+        }}));
+    });
+
+    inputElement.addEventListener("keyup", e => {
+      console.log("keyup", e.code, e.target.value);
+      const inputValue = e.target.value;
+      if (typeof inputValue !== "string" ) {
+        return;
+      }
+
+      if (inputValue.length < 1) {
+        return;
+      }
+      this.dispatchEvent(new CustomEvent("input-keyup", {
+        detail: {
+          query: inputValue
+        }}));
+    });
   }
 
   render() {

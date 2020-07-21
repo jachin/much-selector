@@ -1,4 +1,5 @@
-import { MuchOption } from "./much-option.js";
+import {MuchOption} from "./much-option.js";
+import {Sifter} from "./sifter.js";
 
 class MuchOptionList {
   constructor() {
@@ -113,6 +114,25 @@ class MuchOptionList {
       options.push(option);
     });
     return options;
+  }
+
+  search(query) {
+    // Reset all the old sifter indexes and scores
+    this.options.forEach((option) => {
+      option.sifterIndex = null;
+      option.sifterScore = null;
+    });
+    const arrayOfOptions = this.toArray();
+    const sifter = new Sifter(arrayOfOptions);
+    const results = sifter.search(query, {fields: "label"});
+    results.items.forEach((resultsItem, resultIndex) => {
+      const option = arrayOfOptions[resultsItem.id];
+      option.sifterIndex = resultIndex;
+      option.sifterScore = resultsItem.score;
+
+      // TODO Do something with highlight here
+    });
+    console.log("options", this.options);
   }
 }
 

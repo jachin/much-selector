@@ -12,7 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "lit-element": "^2.3.1",
-    "lit-html": "^1.2.1"
+    "lit-html": "^1.2.1",
+    "lodash-es": "^4.17.15"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.10.4",
@@ -21,7 +22,6 @@
     "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
     "jest": "^26.1.0",
-    "lodash": "^4.17.19",
     "prettier": "^2.0.5"
   }
 }

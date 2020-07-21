@@ -1,13 +1,12 @@
-import defaults from "lodash/defaults";
-import trim from "lodash/trim";
-import forEach from "lodash/forEach.js";
-import toString from "lodash/toString";
-import escapeRegExp from "lodash/escapeRegExp";
+import trim from "./trim.js";
+import defaults from "lodash-es/defaults";
+import forEach from "lodash-es/forEach";
+import toString from "lodash-es/toString";
+import escapeRegExp from "lodash-es/escapeRegExp";
 import diacritics from "./diacritics.js";
-import isArray from "lodash/isArray";
-import get from "lodash/get";
-import assignIn from "lodash/assign";
-import isFunction from "lodash/isFunction";
+import get from "lodash-es/get";
+import assignIn from "lodash-es/assign";
+import isFunction from "lodash-es/isFunction";
 import { asciiFold } from "./ascii-fold";
 
 /**
@@ -77,11 +76,11 @@ const prepareSearch = (query, options = null) => {
   const option_sort = options.sort;
   const option_sort_empty = options.sort_empty;
 
-  if (option_fields && !isArray(option_fields)) {
+  if (option_fields && !Array.isArray(option_fields)) {
     options.fields = [option_fields];
   }
-  if (option_sort && !isArray(option_sort)) options.sort = [option_sort];
-  if (option_sort_empty && !isArray(option_sort_empty)) {
+  if (option_sort && !Array.isArray(option_sort)) options.sort = [option_sort];
+  if (option_sort_empty && !Array.isArray(option_sort_empty)) {
     options.sort_empty = [option_sort_empty];
   }
 

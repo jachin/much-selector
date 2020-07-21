@@ -1,6 +1,6 @@
-import isString from "lodash/isString";
-import isEmpty from "lodash/isEmpty";
-import forEach from "lodash/forEach";
+import isString from "lodash-es/isString";
+import isEmpty from "lodash-es/isEmpty";
+import forEach from "lodash-es/forEach";
 
 /**
  * Looks for a text pattern in an element (and it's children) and modifies
