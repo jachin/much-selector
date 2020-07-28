@@ -21,7 +21,7 @@ class MuchOption {
 
   set label(label) {
     this._label = label;
-    this._fancyLabel = html `<span>${this.label}</span>`;
+    this._fancyLabel = html`<span>${this.label}</span>`;
   }
 
   set fancyLabel(fancyLabel) {
@@ -63,7 +63,7 @@ class MuchOption {
   }
 
   get sifterScore() {
-    this._sifterScore;
+    return this._sifterScore;
   }
 
   set sifterIndex(index) {

@@ -1,8 +1,8 @@
 import trim from "./trim.js";
-import defaults from "lodash-es/defaults";
-import forEach from "lodash-es/forEach";
-import toString from "lodash-es/toString";
-import escapeRegExp from "lodash-es/escapeRegExp";
+import defaults from "lodash-es/defaults.js";
+import forEach from "lodash-es/forEach.js";
+import toString from "lodash-es/toString.js";
+import escapeRegExp from "lodash-es/escapeRegExp.js";
 import diacritics from "./diacritics.js";
 import get from "lodash-es/get";
 import assignIn from "lodash-es/assign";
@@ -51,7 +51,7 @@ const tokenize = (q, respectWordBoundaries = false, useDiacritics = true) => {
     }
     tokens.push({
       string: words[i],
-      regex: new RegExp(regex, "i")
+      regex: new RegExp(regex, "i"),
     });
   }
 
@@ -93,7 +93,7 @@ const prepareSearch = (query, options = null) => {
       options.diacritics
     ),
     total: 0,
-    items: []
+    items: [],
   };
 };
 
@@ -138,11 +138,11 @@ const getScoreFunction = (search, options) => {
     return () => 0;
   }
   if (token_count === 1) {
-    return data => scoreObject(tokens[0], data);
+    return (data) => scoreObject(tokens[0], data);
   }
 
   if (search.options.conjunction === "and") {
-    return data => {
+    return (data) => {
       let score;
       let sum = 0;
       for (let i = 0; i < token_count; i++) {
@@ -153,7 +153,7 @@ const getScoreFunction = (search, options) => {
       return sum / token_count;
     };
   } else {
-    return data => {
+    return (data) => {
       let sum = 0;
       for (var i = 0; i < token_count; i++) {
         sum += scoreObject(tokens[i], data);

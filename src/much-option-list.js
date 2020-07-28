@@ -1,5 +1,5 @@
-import {MuchOption} from "./much-option.js";
-import {Sifter} from "./sifter.js";
+import { MuchOption } from "./much-option.js";
+import { Sifter } from "./sifter.js";
 
 class MuchOptionList {
   constructor() {
@@ -117,6 +117,7 @@ class MuchOptionList {
   }
 
   search(query) {
+    console.log("search - query", query);
     // Reset all the old sifter indexes and scores
     this.options.forEach((option) => {
       option.sifterIndex = null;
@@ -124,15 +125,42 @@ class MuchOptionList {
     });
     const arrayOfOptions = this.toArray();
     const sifter = new Sifter(arrayOfOptions);
-    const results = sifter.search(query, {fields: "label"});
+    const results = sifter.search(query, { fields: "label" });
     results.items.forEach((resultsItem, resultIndex) => {
       const option = arrayOfOptions[resultsItem.id];
       option.sifterIndex = resultIndex;
       option.sifterScore = resultsItem.score;
 
+      console.log("option", option);
+      console.log("resultIndex", resultIndex);
+      console.log("resultsItem", resultsItem);
+
       // TODO Do something with highlight here
     });
-    console.log("options", this.options);
+
+    // Filter out all the options that don't match the search string at all.
+    const filteredOptions = arrayOfOptions.filter(
+      (o) => o.sifterIndex !== null && o.sifterIndex !== undefined
+    );
+
+    // Sort the options by the index assigned to them by Sifter
+    return filteredOptions.sort((a, b) => {
+      if (a.sifterIndex > b.sifterIndex) {
+        return 1;
+      } else if (a.sifterIndex < b.sifterIndex) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  debugOptions(options) {
+    const output = [];
+    options.forEach((o) =>
+      output.push(`${o.value} ${o.sifterScore} ${o.sifterIndex}`)
+    );
+    return output.join("\n");
   }
 }
 

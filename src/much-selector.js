@@ -48,6 +48,7 @@ class MuchSelector extends LitElement {
   static get properties() {
     return {
       options: { type: MuchOptionList },
+      optionsToDisplay: { type: Array },
       showDropdown: { type: Boolean, attribute: false },
     };
   }
@@ -55,6 +56,7 @@ class MuchSelector extends LitElement {
   constructor() {
     super();
     this.options = new MuchOptionList();
+    this.optionsToDisplay = [];
     this.showDropdown = false;
   }
 
@@ -65,6 +67,7 @@ class MuchSelector extends LitElement {
     }
     selectElements.forEach((selectElement) => {
       this.options = buildOptionsFromSelecteElement(selectElement);
+      this.optionsToDisplay = this.options.toArray();
     });
 
     this.inputElement = this.shadowRoot.getElementById("input");
@@ -82,14 +85,10 @@ class MuchSelector extends LitElement {
 
     this.addEventListener("item-selected", this.itemSelectedHandler);
 
-    this.inputElement.addEventListener("input-keydown", e => {
-      console.log("input-keydown listener", e);
-    })
-
-    this.inputElement.addEventListener("input-keyup", e => {
+    this.inputElement.addEventListener("input-keyup", (e) => {
       console.log("input-keyup listener", e);
-      this.options.search(e.detail.query);
-    })
+      this.optionsToDisplay = this.options.search(e.detail.query);
+    });
   }
 
   itemSelectedHandler(event) {
@@ -98,20 +97,13 @@ class MuchSelector extends LitElement {
   }
 
   render() {
-    this.options.search("mi");
-
-
-    const optionTemplates = this.options
-      .toArray()
-      .map(
-        (option) => {
-          return html`<much-selector-dropdown-item
-            value="${option.value}"
-            label="${option.label}"
-            ?selected=${option.selected}
-          ></much-selector-dropdown-item>`;
-        }
-      );
+    const optionTemplates = this.optionsToDisplay.map((option) => {
+      return html`<much-selector-dropdown-item
+        value="${option.value}"
+        label="${option.label}"
+        ?selected=${option.selected}
+      ></much-selector-dropdown-item>`;
+    });
 
     const rect = this.getBoundingClientRect();
 
