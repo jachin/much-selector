@@ -1,9 +1,9 @@
 import { highlight, removeHighlight } from '../src/highlight.js';
-import { expect, html } from '@open-wc/testing';
+import { expect, html, fixture } from '@open-wc/testing';
 
 describe('highlight', () => {
-  it('highlights a string', () => {
-    const optionElement = html`<option>Blue Flowers</option>`;
+  it('highlights a string', async () => {
+    const optionElement = await fixture(html`<option>Blue Flowers</option>`);
     highlight(optionElement, 'Blue');
 
     expect(optionElement).dom.to.equal(
@@ -11,61 +11,74 @@ describe('highlight', () => {
     );
   });
 
-  it('highlight nothing if the pattern is an empty string', () => {
-    const $optionElement = html`<option>Blue Flowers</option>`;
-    highlight($optionElement, '');
+  it('highlight nothing if the pattern is an empty string', async () => {
+    const optionElement = await fixture(html`<option>Blue Flowers</option>`);
+    highlight(optionElement, '');
 
-    expect($optionElement).dom.to.equal('<option>Blue Flowers</option>');
+    expect(optionElement).dom.to.equal('<option>Blue Flowers</option>');
   });
 
-  it('highlight is not case sensitive', () => {
-    const $optionElement = html`<option>Blue Flowers</option>`;
-    highlight($optionElement, 'BLUE');
+  it('highlight is not case sensitive', async () => {
+    const optionElement = await fixture(html`<option>Blue Flowers</option>`);
+    highlight(optionElement, 'BLUE');
 
-    expect($optionElement.outerHTML).dom.to.equal(
+    expect(optionElement).dom.to.equal(
       '<option><span class="highlight">Blue</span> Flowers</option>'
     );
   });
 
-  it('highlight a regular expression', () => {
-    const $optionElement = html`<option>Blue Flowers</option>`;
-    highlight($optionElement, new RegExp(/Flow/));
+  it('highlight a regular expression', async () => {
+    const optionElement = await fixture(html`<option>Blue Flowers</option>`);
+    highlight(optionElement, new RegExp(/Flow/));
 
-    expect($optionElement.outerHTML).dom.to.equal(
+    expect(optionElement).dom.to.equal(
       '<option>Blue <span class="highlight">Flow</span>ers</option>'
     );
   });
 
-  it('highlight several options nested in a select', () => {
-    const $selectElement = html`<select></select><option>Blue Flowers</option><option>Orange Flowers</option><option>Blue Sky</option></select>`;
-    highlight($selectElement, 'BLUE');
+  it('highlight several options nested in a select', async () => {
+    const selectElement = await fixture(
+      html`<select
+        ><option>Blue Flowers</option
+        ><option>Orange Flowers</option
+        ><option>Blue Sky</option></select
+      >`
+    );
+    highlight(selectElement, 'BLUE');
 
-    expect($selectElement.innerHTML).dom.to.equal(
-      '<option><span class="highlight">Blue</span> Flowers</option><option>Orange Flowers</option><option><span class="highlight">Blue</span> Sky</option>'
+    expect(selectElement).dom.to.equal(
+      '<select><option><span class="highlight">Blue</span> Flowers</option><option>Orange Flowers</option><option><span class="highlight">Blue</span> Sky</option></select>'
     );
   });
 });
 
 describe('removeHighlight', () => {
-  it('option element should be free of highlights.', () => {
-    const $selectElement = document.createElement('select');
+  it('option element should be free of highlights.', async () => {
+    const selectElement = await fixture(
+      html`<select
+        ><option><span class="highlight">Blue</span> Flowers</option></select
+      >`
+    );
 
-    $selectElement.innerHTML =
-      '<option><span class="highlight">Blue</span> Flowers</option>';
+    removeHighlight(selectElement);
 
-    removeHighlight($selectElement);
-
-    expect($selectElement.innerHTML).toBe('<option>Blue Flowers</option>');
+    expect(selectElement).dom.to.equal(
+      '<select><option>Blue Flowers</option></select>'
+    );
   });
 
-  it('remove highlights from several options nested in a select', () => {
-    const $selectElement = document.createElement('select');
-    $selectElement.innerHTML =
-      '<option><span class="highlight">Blue</span> Flowers</option><option>Orange Flowers</option><option><span class="highlight">Blue</span> Sky</option>';
-    removeHighlight($selectElement);
+  it('remove highlights from several options nested in a select', async () => {
+    const selectElement = await fixture(
+      html`<select
+        ><option><span class="highlight">Blue</span> Flowers</option
+        ><option>Orange Flowers</option
+        ><option><span class="highlight">Blue</span> Sky</option></select
+      >`
+    );
+    removeHighlight(selectElement);
 
-    expect($selectElement.innerHTML).toBe(
-      '<option>Blue Flowers</option><option>Orange Flowers</option><option>Blue Sky</option>'
+    expect(selectElement).dom.to.equal(
+      '<select><option>Blue Flowers</option><option>Orange Flowers</option><option>Blue Sky</option></select>'
     );
   });
 });
