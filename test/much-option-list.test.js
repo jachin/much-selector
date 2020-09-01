@@ -1,19 +1,18 @@
-import { MuchOptionList } from "./much-option-list.js";
-import { beforeEach, describe, expect, test } from "@jest/globals";
-import { MuchOption } from "./much-option.js";
+import { MuchOptionList } from '../src/much-option-list.js';
+import { MuchOption } from '../src/much-option.js';
 
 const optionList = new MuchOptionList();
 
-const red = new MuchOption("red");
-const blue = new MuchOption("blue");
-const green = new MuchOption("green");
+const red = new MuchOption('red');
+const blue = new MuchOption('blue');
+const green = new MuchOption('green');
 
 beforeEach(() => {
   optionList.clear();
 });
 
-describe("Much Option List", () => {
-  test("add an option", () => {
+describe('Much Option List', () => {
+  it('add an option', () => {
     optionList.add(red);
     optionList.add(blue);
     optionList.add(green);
@@ -21,7 +20,7 @@ describe("Much Option List", () => {
     expect(optionList.toArray()).toStrictEqual([red, blue, green]);
   });
 
-  test("do now allow the user to add an option more than once", () => {
+  it('do now allow the user to add an option more than once', () => {
     optionList.add(red);
     optionList.add(blue);
     optionList.add(green);
@@ -30,16 +29,16 @@ describe("Much Option List", () => {
     }).toThrow();
   });
 
-  test("remove an option by value", () => {
+  it('remove an option by value', () => {
     optionList.add(red);
     optionList.add(blue);
     optionList.add(green);
-    optionList.removeByValue("red");
+    optionList.removeByValue('red');
 
     expect(optionList.toArray()).toStrictEqual([blue, green]);
   });
 
-  test("remove an option", () => {
+  it('remove an option', () => {
     optionList.add(red);
     optionList.add(blue);
     optionList.add(green);
@@ -48,7 +47,7 @@ describe("Much Option List", () => {
     expect(optionList.toArray()).toStrictEqual([red, blue]);
   });
 
-  test("remove an option in the middle", () => {
+  it('remove an option in the middle', () => {
     optionList.add(red);
     optionList.add(blue);
     optionList.add(green);
@@ -57,7 +56,7 @@ describe("Much Option List", () => {
     expect(optionList.toArray()).toStrictEqual([red, green]);
   });
 
-  test("no options selected", () => {
+  it('no options selected', () => {
     optionList.add(red);
     optionList.add(blue);
     optionList.add(green);
@@ -65,21 +64,21 @@ describe("Much Option List", () => {
     expect(optionList.selectedOptions).toStrictEqual([]);
   });
 
-  test("select an option by value", () => {
+  it('select an option by value', () => {
     optionList.add(red);
-    optionList.selectByValue("red");
+    optionList.selectByValue('red');
 
     expect(optionList.selectedOptions).toStrictEqual([red]);
   });
 
-  test("select an option", () => {
+  it('select an option', () => {
     optionList.add(red);
     optionList.selectOption(red);
 
     expect(optionList.selectedOptions).toStrictEqual([red]);
   });
 
-  test("deselect an option", () => {
+  it('deselect an option', () => {
     optionList.add(red);
     optionList.selectOption(red);
     optionList.deselectOption(red);
@@ -87,7 +86,7 @@ describe("Much Option List", () => {
     expect(optionList.selectedOptions).toStrictEqual([]);
   });
 
-  test("select one option", () => {
+  it('select one option', () => {
     optionList.add(red);
     optionList.add(green);
     optionList.selectOneOption(red);

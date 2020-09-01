@@ -1,4 +1,4 @@
-import forEach from "lodash/forEach";
+import forEach from 'lodash-es/forEach';
 
 /**
  * Copies CSS properties from one element to another.
@@ -34,24 +34,24 @@ const measureString = function (str, $parent) {
     return 0;
   }
 
-  const $test = document.createElement("test");
-  $test.style.position = "absolute";
-  $test.style.top = "-99999";
-  $test.style.left = "-99999";
-  $test.style.width = "auto";
+  const $test = document.createElement('test');
+  $test.style.position = 'absolute';
+  $test.style.top = '-99999';
+  $test.style.left = '-99999';
+  $test.style.width = 'auto';
   $test.style.padding = 0;
-  $test.style.whiteSpace = "pre";
+  $test.style.whiteSpace = 'pre';
 
   $test.innerText = str;
 
-  document.querySelector("body").append($test);
+  document.querySelector('body').append($test);
 
   transferStyles($parent, $test, [
-    "letterSpacing",
-    "fontSize",
-    "fontFamily",
-    "fontWeight",
-    "textTransform"
+    'letterSpacing',
+    'fontSize',
+    'fontFamily',
+    'fontWeight',
+    'textTransform',
   ]);
 
   const rect = $test.getBoundingClientRect();
