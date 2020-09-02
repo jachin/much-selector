@@ -22,65 +22,73 @@ describe('Much Option List', () => {
   });
 
   it('do now allow the user to add an option more than once', () => {
-    optionList.add(red);
-    optionList.add(blue);
-    optionList.add(green);
+    optionList.addStrict(red);
+    optionList.addStrict(blue);
+    optionList.addStrict(green);
     expect(() => {
-      optionList.add(red);
+      optionList.addStrict(red);
     }).to.throw();
   });
 
-  it('remove an option by value', () => {
+  it('do now allow the user to add an option more than once but be cool about it', () => {
     optionList.add(red);
     optionList.add(blue);
     optionList.add(green);
+    optionList.add(red);
+    expect(optionList.toArray()).to.deep.equal([red, blue, green]);
+  });
+
+  it('remove an option by value', () => {
+    optionList.addStrict(red);
+    optionList.addStrict(blue);
+    optionList.addStrict(green);
     optionList.removeByValue('red');
 
     expect(optionList.toArray()).to.deep.equal([blue, green]);
   });
 
   it('remove an option', () => {
-    optionList.add(red);
-    optionList.add(blue);
-    optionList.add(green);
+    optionList.addStrict(red);
+    optionList.addStrict(blue);
+    optionList.addStrict(green);
     optionList.removeOption(green);
 
     expect(optionList.toArray()).to.deep.equal([red, blue]);
   });
 
   it('remove an option in the middle', () => {
-    optionList.add(red);
-    optionList.add(blue);
-    optionList.add(green);
+    optionList.addStrict(red);
+    optionList.addStrict(blue);
+    optionList.addStrict(green);
     optionList.removeOption(blue);
 
     expect(optionList.toArray()).to.deep.equal([red, green]);
   });
 
   it('no options selected', () => {
-    optionList.add(red);
-    optionList.add(blue);
-    optionList.add(green);
+    optionList.addStrict(red);
+    optionList.addStrict(blue);
+    optionList.addStrict(green);
 
     expect(optionList.selectedOptions).to.deep.equal([]);
   });
 
   it('select an option by value', () => {
-    optionList.add(red);
+    optionList.addStrict(red);
     optionList.selectByValue('red');
 
     expect(optionList.selectedOptions).to.deep.equal([red]);
   });
 
   it('select an option', () => {
-    optionList.add(red);
+    optionList.addStrict(red);
     optionList.selectOption(red);
 
     expect(optionList.selectedOptions).to.deep.equal([red]);
   });
 
   it('deselect an option', () => {
-    optionList.add(red);
+    optionList.addStrict(red);
     optionList.selectOption(red);
     optionList.deselectOption(red);
 
@@ -88,8 +96,8 @@ describe('Much Option List', () => {
   });
 
   it('select one option', () => {
-    optionList.add(red);
-    optionList.add(green);
+    optionList.addStrict(red);
+    optionList.addStrict(green);
     optionList.selectOneOption(red);
     optionList.selectOneOption(green);
 
