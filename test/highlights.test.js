@@ -1,5 +1,5 @@
-import { highlight, removeHighlight } from '../src/highlight.js';
 import { expect, html, fixture } from '@open-wc/testing';
+import { highlight, removeHighlight } from '../src/highlight.js';
 
 describe('highlight', () => {
   it('highlights a string', async () => {

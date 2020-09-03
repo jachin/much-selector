@@ -1,6 +1,6 @@
+import { expect } from '@open-wc/testing';
 import { MuchOptionList } from '../src/much-option-list.js';
 import { MuchOption } from '../src/much-option.js';
-import { expect } from '@open-wc/testing';
 
 const optionList = new MuchOptionList();
 

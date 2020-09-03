@@ -1,5 +1,5 @@
-import { asciiFold } from '../src/ascii-fold.js';
 import { expect } from '@open-wc/testing';
+import { asciiFold } from '../src/ascii-fold.js';
 
 describe('asciiFold', () => {
   it('makes fancy strings boring', () => {

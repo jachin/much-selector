@@ -1,5 +1,5 @@
-import { measureString } from '../src/measure-string.js';
 import { expect, html, fixture } from '@open-wc/testing';
+import { measureString } from '../src/measure-string.js';
 
 describe('measureString', () => {
   it('is a number', async () => {
