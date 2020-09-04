@@ -73,7 +73,7 @@ class MuchOptionList {
   }
 
   selectOneByValue(value) {
-    this.selectedOptions.map(selectedOption => {
+    this.selectedOptions.forEach(selectedOption => {
       this.deselectOption(selectedOption);
     });
     this.selectByValue(value);
@@ -123,10 +123,7 @@ class MuchOptionList {
   search(query) {
     console.log('search - query', query);
     // Reset all the old sifter indexes and scores
-    this.options.forEach(option => {
-      option.sifterIndex = null;
-      option.sifterScore = null;
-    });
+    this.options.forEach(option => option.resetSifterData());
     const arrayOfOptions = this.toArray();
     const sifter = new Sifter(arrayOfOptions);
     const results = sifter.search(query, { fields: 'label' });
@@ -159,6 +156,7 @@ class MuchOptionList {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   debugOptions(options) {
     const output = [];
     options.forEach(o =>
