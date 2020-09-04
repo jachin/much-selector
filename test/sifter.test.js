@@ -70,7 +70,7 @@ describe('Sifter', () => {
       { title: 'Collection: 60-66 Chevy Truck Weather' },
       { title: 'Collection: 60-66 Truck Chevy' },
       { title: 'Collection: 60-66 chevy truck metal' },
-      { title: 'Collection: 61-66 Turck Ford' },
+      { title: 'Collection: 61-66 Truck Ford' },
       { title: 'Collection: 65-73 Mustang Ford' },
       { title: 'Collection: 67-69 Camaro Chevy' },
       { title: 'Collection: 67-72 Chevy Truck Glass' },
@@ -966,8 +966,11 @@ describe('Sifter', () => {
         expect(head(tokens).regex instanceof RegExp).to.be.true;
         expect(head(tokens).regex.test('HelLO')).to.be.true;
         expect(head(tail(tokens)).regex.test('woRLD')).to.be.true;
+        // noinspection SpellCheckingInspection
         expect(head(tail(tokens)).regex.test('afawfaf')).to.be.false;
+        // noinspection SpellCheckingInspection
         expect(head(tokens).regex.test('hęłlö')).to.be.true;
+        // noinspection SpellCheckingInspection
         expect(head(tail(tokens)).regex.test('wÕrlð')).to.be.true;
       });
     });
@@ -1066,9 +1069,11 @@ describe('Sifter', () => {
     it('should allow word boundaries to be respected', () => {
       const sifter = new Sifter([{ name: 'John Smith' }, { name: 'Jane Doe' }]);
 
+      // noinspection SpellCheckingInspection
       let result = sifter.search('mith', { fields: 'name' });
       expect(result.items).to.have.lengthOf(1);
 
+      // noinspection SpellCheckingInspection
       result = sifter.search('mith', {
         fields: 'name',
         respect_word_boundaries: true,
@@ -1215,6 +1220,7 @@ describe('Sifter', () => {
       });
 
       it('should not add implicit "$score" field if explicitly given', () => {
+        // noinspection SpellCheckingInspection
         const sifter = new Sifter([
           { field: 'boooo' },
           { field: 'yoo' },
@@ -1232,6 +1238,7 @@ describe('Sifter', () => {
       });
 
       it('should be locale-aware', () => {
+        // noinspection SpellCheckingInspection
         const sifter = new Sifter([
           { field: 'Zoom Test' },
           { field: 'Água Test' },
@@ -1264,9 +1271,14 @@ describe('Sifter', () => {
     });
 
     describe('returned results', () => {
-      let sifter, options, result, resultEmpty, resultAll;
+      let sifter;
+      let options;
+      let result;
+      let resultEmpty;
+      let resultAll;
 
       beforeEach(() => {
+        // noinspection SpellCheckingInspection
         sifter = new Sifter([
           { title: 'Matterhorn', location: 'Switzerland', continent: 'Europe' },
           { title: 'Eiger', location: 'Switzerland', continent: 'Europe' },
@@ -1277,6 +1289,7 @@ describe('Sifter', () => {
 
         options = { limit: 1, fields: ['title', 'location', 'continent'] };
         result = sifter.search('switzerland europe', options);
+        // noinspection SpellCheckingInspection
         resultEmpty = sifter.search('awawfawfawf', options);
         resultAll = sifter.search('', {
           fields: ['title', 'location', 'continent'],
@@ -1285,6 +1298,7 @@ describe('Sifter', () => {
       });
 
       it('should not vary when using an array vs an object as a data source', () => {
+        // noinspection SpellCheckingInspection
         const sifterBuiltWithAnObject = new Sifter({
           a: {
             title: 'Matterhorn',
@@ -1325,12 +1339,12 @@ describe('Sifter', () => {
           expect(result.items.length).to.be.below(options.limit + 1);
         });
         it('should not contain any items with a score not equal to 1 (without query)', () => {
-          for (let i = 0, n = resultAll.items.length; i < n; i++) {
+          for (let i = 0, n = resultAll.items.length; i < n; i += 1) {
             expect(resultAll.items[i].score).to.equal(1);
           }
         });
         it('should not contain any items with a score of zero (with query)', () => {
-          for (let i = 0, n = result.items.length; i < n; i++) {
+          for (let i = 0, n = result.items.length; i < n; i += 1) {
             expect(result.items[i].score).not.to.equal(0);
           }
         });
