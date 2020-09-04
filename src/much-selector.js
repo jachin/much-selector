@@ -1,27 +1,25 @@
-import { LitElement, html, css } from "lit-element";
-import { render } from "lit-html";
-import { styleMap } from "lit-html/directives/style-map";
+import { LitElement, html, css } from 'lit-element';
+import { styleMap } from 'lit-html/directives/style-map';
 
-import { MuchOption } from "./much-option.js";
-import { MuchOptionList } from "./much-option-list";
-import { highlight } from "./highlight";
+import { MuchOption } from './much-option.js';
+import { MuchOptionList } from './much-option-list.js';
 
-const buildOptionsFromSelecteElement = (selectElement) => {
+const buildOptionsFromSelecteElement = selectElement => {
   const options = new MuchOptionList();
-  const optionElements = selectElement.querySelectorAll("option");
+  const optionElements = selectElement.querySelectorAll('option');
   optionElements.forEach((optionElement, optionIndex) => {
     let value;
     if (optionElement.hasAttribute(value)) {
-      value = optionElement.getAttribute("value");
+      value = optionElement.getAttribute('value');
     } else {
       value = optionElement.innerText;
     }
     const option = new MuchOption(value);
     option.label = optionElement.innerText;
     option.index = optionIndex;
-    if (optionElement.hasAttribute("selected")) {
-      const optionSelectedValue = optionElement.getAttribute("selected");
-      option.selected = optionSelectedValue !== "false";
+    if (optionElement.hasAttribute('selected')) {
+      const optionSelectedValue = optionElement.getAttribute('selected');
+      option.selected = optionSelectedValue !== 'false';
     }
     options.add(option);
   });
@@ -61,32 +59,34 @@ class MuchSelector extends LitElement {
   }
 
   firstUpdated() {
-    const selectElements = this.querySelectorAll("select");
+    const selectElements = this.querySelectorAll('select');
     if (selectElements.length > 1) {
-      throw "The much-selector element only allows one select element in it's slot.";
+      throw new Error(
+        "The much-selector element only allows one select element in it's slot."
+      );
     }
-    selectElements.forEach((selectElement) => {
+    selectElements.forEach(selectElement => {
       this.options = buildOptionsFromSelecteElement(selectElement);
       this.optionsToDisplay = this.options.toArray();
     });
 
-    this.inputElement = this.shadowRoot.getElementById("input");
+    this.inputElement = this.shadowRoot.getElementById('input');
     this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
 
-    this.dropdownElement = this.shadowRoot.getElementById("dropdown");
+    this.dropdownElement = this.shadowRoot.getElementById('dropdown');
 
-    this.inputElement.addEventListener("input-focus", () => {
+    this.inputElement.addEventListener('input-focus', () => {
       this.showDropdown = true;
     });
 
-    this.inputElement.addEventListener("input-blur", () => {
+    this.inputElement.addEventListener('input-blur', () => {
       this.showDropdown = false;
     });
 
-    this.addEventListener("item-selected", this.itemSelectedHandler);
+    this.addEventListener('item-selected', this.itemSelectedHandler);
 
-    this.inputElement.addEventListener("input-keyup", (e) => {
-      console.log("input-keyup listener", e);
+    this.inputElement.addEventListener('input-keyup', e => {
+      console.log('input-keyup listener', e);
       this.optionsToDisplay = this.options.search(e.detail.query);
     });
   }
@@ -97,7 +97,7 @@ class MuchSelector extends LitElement {
   }
 
   render() {
-    const optionTemplates = this.optionsToDisplay.map((option) => {
+    const optionTemplates = this.optionsToDisplay.map(option => {
       return html`<much-selector-dropdown-item
         value="${option.value}"
         label="${option.label}"

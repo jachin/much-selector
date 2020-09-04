@@ -7,7 +7,7 @@ import forEach from 'lodash-es/forEach';
  * @param {object} $to
  * @param {array} properties
  */
-const transferStyles = function ($from, $to, properties) {
+const transferStyles = ($from, $to, properties) => {
   const styles = {};
 
   properties.forEach(property => {
@@ -15,6 +15,7 @@ const transferStyles = function ($from, $to, properties) {
   });
 
   forEach(styles, (value, key) => {
+    // eslint-disable-next-line no-param-reassign
     $to.style[key] = value;
   });
 
@@ -29,7 +30,7 @@ const transferStyles = function ($from, $to, properties) {
  * @param {object} $parent
  * @returns {int}
  */
-const measureString = function (str, $parent) {
+const measureString = (str, $parent) => {
   if (!str) {
     return 0;
   }
@@ -39,7 +40,7 @@ const measureString = function (str, $parent) {
   $test.style.top = '-99999';
   $test.style.left = '-99999';
   $test.style.width = 'auto';
-  $test.style.padding = 0;
+  $test.style.padding = '0';
   $test.style.whiteSpace = 'pre';
 
   $test.innerText = str;
@@ -55,7 +56,7 @@ const measureString = function (str, $parent) {
   ]);
 
   const rect = $test.getBoundingClientRect();
-  const width = rect.width;
+  const { width } = rect;
 
   $test.remove();
 

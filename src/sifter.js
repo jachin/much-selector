@@ -14,7 +14,7 @@ import { asciiFold } from './ascii-fold.js';
  * https://github.com/brianreavis/sifter.js
  */
 
-const cmp = function (a, b) {
+const cmp = (a, b) => {
   if (typeof a === 'number' && typeof b === 'number') {
     if (a > b) {
       return 1;
@@ -105,7 +105,7 @@ const getScoreFunction = (search_, options) => {
   const { fields } = search.options;
   const tokenCount = tokens.length;
 
-  const scoreValue = function (value, token) {
+  const scoreValue = (value, token) => {
     if (!value) return 0;
     const _value = String(value || '');
     const pos = _value.search(token.regex);
@@ -118,7 +118,7 @@ const getScoreFunction = (search_, options) => {
   const makeScoreObject = () => {
     const fieldCount = fields.length;
     if (!fieldCount) {
-      return function () {
+      return () => {
         return 0;
       };
     }
@@ -229,7 +229,7 @@ class Sifter {
       const multiplier = multipliers[0];
       return (a, b) => multiplier * cmp(getField(field, a), getField(field, b));
     }
-    return function (a, b) {
+    return (a, b) => {
       for (let i = 0; i < fieldsCount; i += 1) {
         const { field } = fields[i];
         const result =

@@ -1,5 +1,5 @@
-import { MuchOption } from "./much-option.js";
-import { Sifter } from "./sifter.js";
+import { MuchOption } from './much-option.js';
+import { Sifter } from './sifter.js';
 
 class MuchOptionList {
   constructor() {
@@ -16,11 +16,13 @@ class MuchOptionList {
 
   addStrict(option) {
     if (!(option instanceof MuchOption)) {
-      throw "You can only add a MuchOption to a MuchOptionList";
+      throw new Error('You can only add a MuchOption to a MuchOptionList');
     }
 
     if (this.options.has(option.value)) {
-      throw `You you have already added an option with a value of ${option.value}`;
+      throw new Error(
+        `You you have already added an option with a value of ${option.value}`
+      );
     }
 
     this.options.set(option.value, option);
@@ -32,7 +34,7 @@ class MuchOptionList {
 
   removeOption(option) {
     if (!(option instanceof MuchOption)) {
-      throw "You can only remove the option if it a MuchOption";
+      throw new Error('You can only remove the option if it a MuchOption');
     }
 
     this.removeByValue(option.value);
@@ -41,14 +43,14 @@ class MuchOptionList {
   selectByValue(value) {
     const option = this.options.get(value);
     if (!option) {
-      throw `Unable to select a option with the value of: ${value}`;
+      throw new Error(`Unable to select a option with the value of: ${value}`);
     }
     option.selected = true;
   }
 
   selectOption(option) {
     if (!(option instanceof MuchOption)) {
-      throw "You can only select an option if it is a MuchOption";
+      throw new Error('You can only select an option if it is a MuchOption');
     }
     this.selectByValue(option.value);
   }
@@ -56,20 +58,22 @@ class MuchOptionList {
   deselectOptionByValue(value) {
     const option = this.options.get(value);
     if (!option) {
-      throw `Unable to deselect a option with the value of: ${value}`;
+      throw new Error(
+        `Unable to deselect a option with the value of: ${value}`
+      );
     }
     option.selected = false;
   }
 
   deselectOption(option) {
     if (!(option instanceof MuchOption)) {
-      throw "You can only deselect an option if it is a MuchOption";
+      throw new Error('You can only deselect an option if it is a MuchOption');
     }
     this.deselectOptionByValue(option.value);
   }
 
   selectOneByValue(value) {
-    this.selectedOptions.map((selectedOption) => {
+    this.selectedOptions.map(selectedOption => {
       this.deselectOption(selectedOption);
     });
     this.selectByValue(value);
@@ -77,14 +81,14 @@ class MuchOptionList {
 
   selectOneOption(option) {
     if (!(option instanceof MuchOption)) {
-      throw "You can only select an option if it is a MuchOption";
+      throw new Error('You can only select an option if it is a MuchOption');
     }
     this.selectOneByValue(option.value);
   }
 
   get selectedOptions() {
     const selectedOptions = [];
-    this.options.forEach((option) => {
+    this.options.forEach(option => {
       if (option.selected) {
         selectedOptions.push(option);
       }
@@ -95,7 +99,7 @@ class MuchOptionList {
   // TODO make this "pair" thing a type.
   get selectedOptionValueLabelPairs() {
     const selectedValueLabelPairs = [];
-    this.selectedOptions.forEach((selectedOption) => {
+    this.selectedOptions.forEach(selectedOption => {
       selectedValueLabelPairs.push([
         selectedOption.value,
         selectedOption.label,
@@ -110,57 +114,57 @@ class MuchOptionList {
 
   toArray() {
     const options = [];
-    this.options.forEach((option) => {
+    this.options.forEach(option => {
       options.push(option);
     });
     return options;
   }
 
   search(query) {
-    console.log("search - query", query);
+    console.log('search - query', query);
     // Reset all the old sifter indexes and scores
-    this.options.forEach((option) => {
+    this.options.forEach(option => {
       option.sifterIndex = null;
       option.sifterScore = null;
     });
     const arrayOfOptions = this.toArray();
     const sifter = new Sifter(arrayOfOptions);
-    const results = sifter.search(query, { fields: "label" });
+    const results = sifter.search(query, { fields: 'label' });
     results.items.forEach((resultsItem, resultIndex) => {
       const option = arrayOfOptions[resultsItem.id];
       option.sifterIndex = resultIndex;
       option.sifterScore = resultsItem.score;
 
-      console.log("option", option);
-      console.log("resultIndex", resultIndex);
-      console.log("resultsItem", resultsItem);
+      console.log('option', option);
+      console.log('resultIndex', resultIndex);
+      console.log('resultsItem', resultsItem);
 
       // TODO Do something with highlight here
     });
 
     // Filter out all the options that don't match the search string at all.
     const filteredOptions = arrayOfOptions.filter(
-      (o) => o.sifterIndex !== null && o.sifterIndex !== undefined
+      o => o.sifterIndex !== null && o.sifterIndex !== undefined
     );
 
     // Sort the options by the index assigned to them by Sifter
     return filteredOptions.sort((a, b) => {
       if (a.sifterIndex > b.sifterIndex) {
         return 1;
-      } else if (a.sifterIndex < b.sifterIndex) {
-        return -1;
-      } else {
-        return 0;
       }
+      if (a.sifterIndex < b.sifterIndex) {
+        return -1;
+      }
+      return 0;
     });
   }
 
   debugOptions(options) {
     const output = [];
-    options.forEach((o) =>
+    options.forEach(o =>
       output.push(`${o.value} ${o.sifterScore} ${o.sifterIndex}`)
     );
-    return output.join("\n");
+    return output.join('\n');
   }
 }
 
