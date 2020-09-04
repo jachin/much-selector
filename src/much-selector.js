@@ -4,7 +4,7 @@ import { styleMap } from 'lit-html/directives/style-map';
 import { MuchOption } from './much-option.js';
 import { MuchOptionList } from './much-option-list.js';
 
-const buildOptionsFromSelecteElement = selectElement => {
+const buildOptionsFromSelectElement = selectElement => {
   const options = new MuchOptionList();
   const optionElements = selectElement.querySelectorAll('option');
   optionElements.forEach((optionElement, optionIndex) => {
@@ -66,7 +66,7 @@ class MuchSelector extends LitElement {
       );
     }
     selectElements.forEach(selectElement => {
-      this.options = buildOptionsFromSelecteElement(selectElement);
+      this.options = buildOptionsFromSelectElement(selectElement);
       this.optionsToDisplay = this.options.toArray();
     });
 

@@ -4,8 +4,8 @@
   "description": "Webcomponent much-selector following open-wc recommendations",
   "author": "much-selector",
   "license": "MIT",
-  "main": "index.js",
-  "module": "index.js",
+  "main": "src/index.js",
+  "module": "src/index.js",
   "scripts": {
     "start": "es-dev-server --app-index demo/index.html --node-resolve --open --watch",
     "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
