@@ -962,13 +962,13 @@ describe('Sifter', () => {
       });
 
       it('regex property', () => {
-        expect(head(tokens)).toHaveProperty('regex');
-        expect(head(tokens).regex instanceof RegExp).toBeTruthy();
-        expect(head(tokens).regex.test('HelLO')).toBeTruthy();
-        expect(head(tail(tokens)).regex.test('woRLD')).toBeTruthy();
-        expect(head(tail(tokens)).regex.test('afawfaf')).toBeFalsy();
-        expect(head(tokens).regex.test('hęłlö')).toBeTruthy();
-        expect(head(tail(tokens)).regex.test('wÕrlð')).toBeTruthy();
+        expect(head(tokens)).to.have.property('regex');
+        expect(head(tokens).regex instanceof RegExp).to.be.true;
+        expect(head(tokens).regex.test('HelLO')).to.be.true;
+        expect(head(tail(tokens)).regex.test('woRLD')).to.be.true;
+        expect(head(tail(tokens)).regex.test('afawfaf')).to.be.false;
+        expect(head(tokens).regex.test('hęłlö')).to.be.true;
+        expect(head(tail(tokens)).regex.test('wÕrlð')).to.be.true;
       });
     });
   });
@@ -980,11 +980,11 @@ describe('Sifter', () => {
         conjunction: 'and',
       });
 
-      expect(score({ a: 'one' })).toBe(0);
-      expect(score({ a: 'one', b: 'two' })).toBeGreaterThan(0);
-      expect(score({ a: 'one', b: 'one' })).toBe(0);
-      expect(score({ a: 'one', b: 'three' })).toBe(0);
-      expect(score({ a: 'three', b: 'three' })).toBe(0);
+      expect(score({ a: 'one' })).to.equal(0);
+      expect(score({ a: 'one', b: 'two' })).to.be.above(0);
+      expect(score({ a: 'one', b: 'one' })).to.equal(0);
+      expect(score({ a: 'one', b: 'three' })).to.equal(0);
+      expect(score({ a: 'three', b: 'three' })).to.equal(0);
     });
 
     it('should acknowledge or "conjunction" option', () => {
@@ -993,26 +993,26 @@ describe('Sifter', () => {
         conjunction: 'or',
       });
 
-      expect(score({ a: 'one' })).toBeGreaterThan(0);
-      expect(score({ a: 'one', b: 'two' })).toBeGreaterThan(0);
-      expect(score({ a: 'one', b: 'one' })).toBeGreaterThan(0);
-      expect(score({ a: 'one', b: 'three' })).toBeGreaterThan(0);
-      expect(score({ a: 'three', b: 'three' })).toBe(0);
+      expect(score({ a: 'one' })).to.be.above(0);
+      expect(score({ a: 'one', b: 'two' })).to.be.above(0);
+      expect(score({ a: 'one', b: 'one' })).to.be.above(0);
+      expect(score({ a: 'one', b: 'three' })).to.be.above(0);
+      expect(score({ a: 'three', b: 'three' })).to.equal(0);
     });
 
     it('with query and options should return a function that returns a number', () => {
       const score = getScoreFunction('test', { fields: ['a', 'b'] });
-      expect(typeof score({ a: 'test' })).toStrictEqual('number');
-      expect(score({ a: 'test' })).toBeGreaterThan(0);
-      expect(typeof score({})).toStrictEqual('number');
+      expect(score({ a: 'test' })).to.be.a('number');
+      expect(score({ a: 'test' })).to.be.above(0);
+      expect(score({})).to.be.a('number');
     });
 
     it('with pre-prepared search should return a function that returns a number', () => {
       const search = prepareSearch('test', { fields: ['a', 'b'] });
       const score = getScoreFunction(search);
-      expect(typeof score({ a: 'test' })).toStrictEqual('number');
-      expect(score({ a: 'test' })).toBeGreaterThan(0);
-      expect(typeof score({})).toStrictEqual('number');
+      expect(score({ a: 'test' })).to.be.a('number');
+      expect(score({ a: 'test' })).to.be.above(0);
+      expect(score({})).to.be.a('number');
     });
   });
 
@@ -1024,20 +1024,20 @@ describe('Sifter', () => {
         sort_empty: { field: 'a' },
       });
 
-      expect(isArray(search.options.fields)).toBeTruthy();
-      expect(isArray(search.options.sort)).toBeTruthy();
-      expect(isArray(search.options.sort_empty)).toBeTruthy();
+      expect(isArray(search.options.fields)).to.be.true;
+      expect(isArray(search.options.sort)).to.be.true;
+      expect(isArray(search.options.sort_empty)).to.be.true;
     });
     it('returned object', () => {
       const search = prepareSearch('hello world');
-      expect(search.total).toStrictEqual(0);
-      expect(isArray(search.tokens)).toBeTruthy();
-      expect(search.tokens.length).toStrictEqual(2);
-      expect(isArray(search.items)).toBeTruthy();
-      expect(search.items.length).toStrictEqual(0);
-      expect(search.options).not.toBeNull();
-      expect(isArray(search.options)).toBeFalsy();
-      expect(isObject(search.options)).toBeTruthy();
+      expect(search.total).to.equal(0);
+      expect(isArray(search.tokens)).to.be.true;
+      expect(search.tokens.length).to.equal(2);
+      expect(isArray(search.items)).to.be.true;
+      expect(search.items.length).to.equal(0);
+      expect(search.options).to.not.be.null;
+      expect(isArray(search.options)).to.be.false;
+      expect(isObject(search.options)).to.be.true;
     });
   });
 
@@ -1045,7 +1045,7 @@ describe('Sifter', () => {
     it('should allow "fields" option to be a string', () => {
       const sifter = new Sifter([{ field: 'a' }, {}]);
       const result = sifter.search('a', { fields: 'field' });
-      expect(result.items[0].id).toStrictEqual(0);
+      expect(result.items[0].id).to.equal(0);
     });
 
     it('should allow to search nested fields', () => {
@@ -1059,40 +1059,40 @@ describe('Sifter', () => {
         nesting: true,
       });
 
-      expect(result.items).toHaveLength(1);
-      expect(result.items[0].id).toStrictEqual(0);
+      expect(result.items).to.have.lengthOf(1);
+      expect(result.items[0].id).to.equal(0);
     });
 
     it('should allow word boundaries to be respected', () => {
       const sifter = new Sifter([{ name: 'John Smith' }, { name: 'Jane Doe' }]);
 
       let result = sifter.search('mith', { fields: 'name' });
-      expect(result.items).toHaveLength(1);
+      expect(result.items).to.have.lengthOf(1);
 
       result = sifter.search('mith', {
         fields: 'name',
         respect_word_boundaries: true,
       });
-      expect(result.items).toHaveLength(0);
+      expect(result.items).to.have.lengthOf(0);
 
       result = sifter.search('Smi', {
         fields: 'name',
         respect_word_boundaries: true,
       });
-      expect(result.items).toHaveLength(1);
+      expect(result.items).to.have.lengthOf(1);
 
       result = sifter.search('John Sm', {
         fields: 'name',
         respect_word_boundaries: true,
       });
-      expect(result.items).toHaveLength(1);
+      expect(result.items).to.have.lengthOf(1);
 
       result = sifter.search('ohn Smith', {
         fields: 'name',
         respect_word_boundaries: true,
         conjunction: 'and',
       });
-      expect(result.items).toHaveLength(0);
+      expect(result.items).to.have.lengthOf(0);
     });
 
     describe('sorting', () => {
@@ -1109,9 +1109,9 @@ describe('Sifter', () => {
           sort_empty: { field: 'field', direction: 'desc' },
         });
 
-        expect(result.items[0].id).toStrictEqual(1);
-        expect(result.items[1].id).toStrictEqual(2);
-        expect(result.items[2].id).toStrictEqual(0);
+        expect(result.items[0].id).to.equal(1);
+        expect(result.items[1].id).to.equal(2);
+        expect(result.items[2].id).to.equal(0);
       });
 
       it('should work with one field (as object)', () => {
@@ -1125,9 +1125,9 @@ describe('Sifter', () => {
           sort: { field: 'field' },
         });
 
-        expect(result.items[0].id).toStrictEqual(0);
-        expect(result.items[1].id).toStrictEqual(2);
-        expect(result.items[2].id).toStrictEqual(1);
+        expect(result.items[0].id).to.equal(0);
+        expect(result.items[1].id).to.equal(2);
+        expect(result.items[2].id).to.equal(1);
       });
 
       it('should work with one field (as array)', () => {
@@ -1141,9 +1141,9 @@ describe('Sifter', () => {
           sort: [{ field: 'field' }],
         });
 
-        expect(result.items[0].id).toStrictEqual(0);
-        expect(result.items[1].id).toStrictEqual(2);
-        expect(result.items[2].id).toStrictEqual(1);
+        expect(result.items[0].id).to.equal(0);
+        expect(result.items[1].id).to.equal(2);
+        expect(result.items[2].id).to.equal(1);
       });
 
       it('should work with multiple fields and respect priority', () => {
@@ -1158,10 +1158,10 @@ describe('Sifter', () => {
           sort: [{ field: 'a' }, { field: 'b' }],
         });
 
-        expect(result.items[0].id).toStrictEqual(3);
-        expect(result.items[1].id).toStrictEqual(2);
-        expect(result.items[2].id).toStrictEqual(0);
-        expect(result.items[3].id).toStrictEqual(1);
+        expect(result.items[0].id).to.equal(3);
+        expect(result.items[1].id).to.equal(2);
+        expect(result.items[2].id).to.equal(0);
+        expect(result.items[3].id).to.equal(1);
       });
 
       it('should respect numeric fields', () => {
@@ -1176,10 +1176,10 @@ describe('Sifter', () => {
           sort: [{ field: 'field' }],
         });
 
-        expect(result.items[0].id).toStrictEqual(3);
-        expect(result.items[1].id).toStrictEqual(0);
-        expect(result.items[2].id).toStrictEqual(2);
-        expect(result.items[3].id).toStrictEqual(1);
+        expect(result.items[0].id).to.equal(3);
+        expect(result.items[1].id).to.equal(0);
+        expect(result.items[2].id).to.equal(2);
+        expect(result.items[3].id).to.equal(1);
       });
 
       it('should respect sort direction', () => {
@@ -1197,10 +1197,10 @@ describe('Sifter', () => {
           ],
         });
 
-        expect(result.items[0].id).toStrictEqual(2);
-        expect(result.items[1].id).toStrictEqual(0);
-        expect(result.items[2].id).toStrictEqual(3);
-        expect(result.items[3].id).toStrictEqual(1);
+        expect(result.items[0].id).to.equal(2);
+        expect(result.items[1].id).to.equal(0);
+        expect(result.items[2].id).to.equal(3);
+        expect(result.items[3].id).to.equal(1);
       });
 
       it('should add implicit "$score" field when query present', () => {
@@ -1210,8 +1210,8 @@ describe('Sifter', () => {
           sort: [{ field: 'field' }],
         });
 
-        expect(result.items[0].id).toStrictEqual(0);
-        expect(result.items[1].id).toStrictEqual(1);
+        expect(result.items[0].id).to.equal(0);
+        expect(result.items[1].id).to.equal(1);
       });
 
       it('should not add implicit "$score" field if explicitly given', () => {
@@ -1226,9 +1226,9 @@ describe('Sifter', () => {
           sort: [{ field: 'field' }, { field: '$score' }],
         });
 
-        expect(result.items[0].id).toStrictEqual(2);
-        expect(result.items[1].id).toStrictEqual(0);
-        expect(result.items[2].id).toStrictEqual(1);
+        expect(result.items[0].id).to.equal(2);
+        expect(result.items[1].id).to.equal(0);
+        expect(result.items[2].id).to.equal(1);
       });
 
       it('should be locale-aware', () => {
@@ -1241,8 +1241,8 @@ describe('Sifter', () => {
           sort: [{ field: 'field', direction: 'asc' }],
         });
 
-        expect(result.items[0].id).toStrictEqual(1);
-        expect(result.items[1].id).toStrictEqual(0);
+        expect(result.items[0].id).to.equal(1);
+        expect(result.items[1].id).to.equal(0);
       });
 
       it('should work with nested fields', () => {
@@ -1257,9 +1257,9 @@ describe('Sifter', () => {
           nesting: true,
         });
 
-        expect(result.items[0].id).toStrictEqual(0);
-        expect(result.items[1].id).toStrictEqual(2);
-        expect(result.items[2].id).toStrictEqual(1);
+        expect(result.items[0].id).to.equal(0);
+        expect(result.items[1].id).to.equal(2);
+        expect(result.items[2].id).to.equal(1);
       });
     });
 
@@ -1308,100 +1308,103 @@ describe('Sifter', () => {
           'switzerland europe',
           options
         );
-        expect(resultBuiltWithAnObject.items[0].id).toEqual('a');
-        expect(result.items[0].id).toEqual(0);
+        expect(resultBuiltWithAnObject.items[0].id).to.equal('a');
+        expect(result.items[0].id).to.equal(0);
       });
 
       describe('"items" array', () => {
         it('should be an array', () => {
-          expect(Array.isArray(result.items)).toBeTruthy();
-          expect(Array.isArray(resultEmpty.items)).toBeTruthy();
-          expect(Array.isArray(resultAll.items)).toBeTruthy();
+          expect(Array.isArray(result.items)).to.be.true;
+          expect(Array.isArray(resultEmpty.items)).to.be.true;
+          expect(Array.isArray(resultAll.items)).to.be.true;
         });
         it('should include entire set if no query provided', () => {
-          expect(resultAll.items).toHaveLength(5);
+          expect(resultAll.items).to.have.lengthOf(5);
         });
         it('should not have a length that exceeds "limit" option', () => {
-          expect(result.items.length).toBeLessThanOrEqual(options.limit);
+          expect(result.items.length).to.be.below(options.limit + 1);
         });
         it('should not contain any items with a score not equal to 1 (without query)', () => {
           for (let i = 0, n = resultAll.items.length; i < n; i++) {
-            expect(resultAll.items[i].score).toStrictEqual(1);
+            expect(resultAll.items[i].score).to.equal(1);
           }
         });
         it('should not contain any items with a score of zero (with query)', () => {
           for (let i = 0, n = result.items.length; i < n; i++) {
-            expect(result.items[i].score).not.toStrictEqual(0);
+            expect(result.items[i].score).not.to.equal(0);
           }
         });
         it('should be empty when no results match', () => {
-          expect(resultEmpty.items).toHaveLength(0);
+          expect(resultEmpty.items).to.have.lengthOf(0);
         });
 
         describe('elements', () => {
           it('should be objects', () => {
-            expect(typeof result.items[0]).toStrictEqual('object');
-            expect(Array.isArray(result.items[0])).toBeFalsy();
+            expect(result.items[0]).to.be.a('object');
+            expect(Array.isArray(result.items[0])).to.be.false;
           });
           describe('"score" property', () => {
             it('should exist and be a number', () => {
-              expect(result).toHaveProperty(['items', 0, 'score'], 0.5);
-              expect(resultAll).toHaveProperty(['items', 0, 'score'], 1);
+              expect(result).to.have.nested.property('items[0].score', 0.5);
+              expect(resultAll).to.have.nested.property('items[0].score', 1);
             });
           });
           describe('"id" property', () => {
             it('should exist', () => {
-              expect(result).toHaveProperty(['items', 0, 'id'], 0);
-              expect(resultAll).toHaveProperty(['items', 0, 'id'], 4);
+              expect(result).to.have.nested.property('items[0].id', 0);
+              expect(resultAll).to.have.nested.property('items[0].id', 4);
             });
           });
         });
 
         describe('options', () => {
           it('should not be a reference to original options', () => {
-            expect(result.options).not.toBe(options);
+            expect(result.options).not.equal(options);
           });
 
           it('should match original search options', () => {
-            expect(result.options).toStrictEqual(options);
+            expect(result.options).to.deep.equal(options);
           });
         });
 
         describe('"tokens"', () => {
           it('should be an array', () => {
-            expect(Array.isArray(result.tokens)).toBeTruthy();
+            expect(Array.isArray(result.tokens)).to.be.true;
           });
 
           describe('elements', () => {
             it('should be a object', () => {
-              expect(typeof result.tokens[0]).toBe('object');
-              expect(Array.isArray(result.tokens[0])).toBeFalsy();
+              expect(typeof result.tokens[0]).to.equal('object');
+              expect(Array.isArray(result.tokens[0])).to.be.false;
             });
 
             it('"string" property', () => {
-              expect(result.tokens[0]).toHaveProperty('string', 'switzerland');
-              expect(result.tokens[1]).toHaveProperty('string', 'europe');
+              expect(result.tokens[0]).to.have.property(
+                'string',
+                'switzerland'
+              );
+              expect(result.tokens[1]).to.have.property('string', 'europe');
             });
 
             it('"regex" property', () => {
-              expect(result.tokens[0].regex).not.toBeUndefined();
-              expect(result.tokens[0].regex instanceof RegExp).toBeTruthy();
+              expect(result.tokens[0].regex).to.not.be.undefined;
+              expect(result.tokens[0].regex instanceof RegExp).to.be.true;
             });
           });
         });
 
         describe('"query"', () => {
           it('should match original query', () => {
-            expect(result.query).toBe('switzerland europe');
+            expect(result.query).to.equal('switzerland europe');
           });
         });
 
         describe('"total"', () => {
           it('should be an integer and valid', () => {
-            expect(typeof result.total).toBe('number');
-            expect(Math.floor(result.total)).toBe(Math.ceil(result.total));
-            expect(Math.floor(result.total)).toBe(2);
-            expect(Math.floor(resultEmpty.total)).toBe(0);
+            expect(typeof result.total).to.equal('number');
+            expect(Math.floor(result.total)).to.equal(Math.ceil(result.total));
+            expect(Math.floor(result.total)).to.equal(2);
+            expect(Math.floor(resultEmpty.total)).to.equal(0);
           });
         });
       });
