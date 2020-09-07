@@ -9,7 +9,7 @@ const buildOptionsFromSelectElement = selectElement => {
   const optionElements = selectElement.querySelectorAll('option');
   optionElements.forEach((optionElement, optionIndex) => {
     let value;
-    if (optionElement.hasAttribute(value)) {
+    if (optionElement.hasAttribute('value')) {
       value = optionElement.getAttribute('value');
     } else {
       value = optionElement.innerText;
@@ -86,7 +86,6 @@ class MuchSelector extends LitElement {
     this.addEventListener('item-selected', this.itemSelectedHandler);
 
     this.inputElement.addEventListener('input-keyup', e => {
-      console.log('input-keyup listener', e);
       this.optionsToDisplay = this.options.search(e.detail.query);
     });
   }

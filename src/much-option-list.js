@@ -9,8 +9,6 @@ class MuchOptionList {
   add(option) {
     if (!this.options.has(option.value)) {
       this.addStrict(option);
-    } else {
-      console.warn(`There is already a value of: ${option.value}`);
     }
   }
 
@@ -121,7 +119,6 @@ class MuchOptionList {
   }
 
   search(query) {
-    console.log('search - query', query);
     // Reset all the old sifter indexes and scores
     this.options.forEach(option => option.resetSifterData());
     const arrayOfOptions = this.toArray();
@@ -131,10 +128,6 @@ class MuchOptionList {
       const option = arrayOfOptions[resultsItem.id];
       option.sifterIndex = resultIndex;
       option.sifterScore = resultsItem.score;
-
-      console.log('option', option);
-      console.log('resultIndex', resultIndex);
-      console.log('resultsItem', resultsItem);
 
       // TODO Do something with highlight here
     });

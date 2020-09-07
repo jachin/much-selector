@@ -38,11 +38,11 @@ describe('highlight', () => {
 
   it('highlight several options nested in a select', async () => {
     const selectElement = await fixture(
-      html`<select
-        ><option>Blue Flowers</option
-        ><option>Orange Flowers</option
-        ><option>Blue Sky</option></select
-      >`
+      html`<select>
+        <option>Blue Flowers</option>
+        <option>Orange Flowers</option>
+        <option>Blue Sky</option>
+      </select>`
     );
     highlight(selectElement, 'BLUE');
 
@@ -55,9 +55,9 @@ describe('highlight', () => {
 describe('removeHighlight', () => {
   it('option element should be free of highlights.', async () => {
     const selectElement = await fixture(
-      html`<select
-        ><option><span class="highlight">Blue</span> Flowers</option></select
-      >`
+      html`<select>
+        <option><span class="highlight">Blue</span> Flowers</option>
+      </select>`
     );
 
     removeHighlight(selectElement);
@@ -69,11 +69,11 @@ describe('removeHighlight', () => {
 
   it('remove highlights from several options nested in a select', async () => {
     const selectElement = await fixture(
-      html`<select
-        ><option><span class="highlight">Blue</span> Flowers</option
-        ><option>Orange Flowers</option
-        ><option><span class="highlight">Blue</span> Sky</option></select
-      >`
+      html`<select>
+        <option><span class="highlight">Blue</span> Flowers</option>
+        <option>Orange Flowers</option>
+        <option><span class="highlight">Blue</span> Sky</option>
+      </select>`
     );
     removeHighlight(selectElement);
 
