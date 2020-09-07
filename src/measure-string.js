@@ -1,4 +1,4 @@
-import forEach from "lodash/forEach";
+import forEach from 'lodash-es/forEach';
 
 /**
  * Copies CSS properties from one element to another.
@@ -7,7 +7,7 @@ import forEach from "lodash/forEach";
  * @param {object} $to
  * @param {array} properties
  */
-const transferStyles = function ($from, $to, properties) {
+const transferStyles = ($from, $to, properties) => {
   const styles = {};
 
   properties.forEach(property => {
@@ -15,6 +15,7 @@ const transferStyles = function ($from, $to, properties) {
   });
 
   forEach(styles, (value, key) => {
+    // eslint-disable-next-line no-param-reassign
     $to.style[key] = value;
   });
 
@@ -29,33 +30,33 @@ const transferStyles = function ($from, $to, properties) {
  * @param {object} $parent
  * @returns {int}
  */
-const measureString = function (str, $parent) {
+const measureString = (str, $parent) => {
   if (!str) {
     return 0;
   }
 
-  const $test = document.createElement("test");
-  $test.style.position = "absolute";
-  $test.style.top = "-99999";
-  $test.style.left = "-99999";
-  $test.style.width = "auto";
-  $test.style.padding = 0;
-  $test.style.whiteSpace = "pre";
+  const $test = document.createElement('test');
+  $test.style.position = 'absolute';
+  $test.style.top = '-99999';
+  $test.style.left = '-99999';
+  $test.style.width = 'auto';
+  $test.style.padding = '0';
+  $test.style.whiteSpace = 'pre';
 
   $test.innerText = str;
 
-  document.querySelector("body").append($test);
+  document.querySelector('body').append($test);
 
   transferStyles($parent, $test, [
-    "letterSpacing",
-    "fontSize",
-    "fontFamily",
-    "fontWeight",
-    "textTransform"
+    'letterSpacing',
+    'fontSize',
+    'fontFamily',
+    'fontWeight',
+    'textTransform',
   ]);
 
   const rect = $test.getBoundingClientRect();
-  const width = rect.width;
+  const { width } = rect;
 
   $test.remove();
 

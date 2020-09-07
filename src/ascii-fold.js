@@ -1,13 +1,16 @@
-import diacritics from "./diacritics.js";
+import diacritics from './diacritics.js';
 
-const buildAsciiFoldLookup = diacritics => {
-  let i, n, chunk;
-  let foreignLetters = "";
+const buildAsciiFoldLookup = _diacritics => {
+  let i;
+  let n;
+  let chunk;
+
+  let foreignLetters = '';
   const lookup = {};
-  for (const [k, letters] of diacritics) {
+  for (const [k, letters] of _diacritics) {
     chunk = letters.substring(2, letters.length - 1);
     foreignLetters += chunk;
-    for (i = 0, n = chunk.length; i < n; i++) {
+    for (i = 0, n = chunk.length; i < n; i += 1) {
       lookup[chunk.charAt(i)] = k;
     }
   }
@@ -15,14 +18,14 @@ const buildAsciiFoldLookup = diacritics => {
   return [foreignLetters, lookup];
 };
 
-const buildAsciiFold = diacritics => {
-  const [foreignLetters, lookup] = buildAsciiFoldLookup(diacritics);
+const buildAsciiFold = _diacritics => {
+  const [foreignLetters, lookup] = buildAsciiFoldLookup(_diacritics);
 
-  const regexp = new RegExp(`[${foreignLetters}]`, "g");
+  const regexp = new RegExp(`[${foreignLetters}]`, 'g');
 
   return str =>
     str
-      .replace(regexp, function (foreignletter) {
+      .replace(regexp, foreignletter => {
         return lookup[foreignletter];
       })
       .toLowerCase();

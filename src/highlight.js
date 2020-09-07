@@ -1,6 +1,6 @@
-import isString from "lodash-es/isString";
-import isEmpty from "lodash-es/isEmpty";
-import forEach from "lodash-es/forEach";
+import isString from 'lodash-es/isString';
+import isEmpty from 'lodash-es/isEmpty';
+import forEach from 'lodash-es/forEach';
 
 /**
  * Looks for a text pattern in an element (and it's children) and modifies
@@ -14,18 +14,17 @@ import forEach from "lodash-es/forEach";
 const highlight = ($element, pattern) => {
   if (isString(pattern) && isEmpty(pattern)) return;
 
-  const regex = isString(pattern) ? new RegExp(pattern, "i") : pattern;
+  const regex = isString(pattern) ? new RegExp(pattern, 'i') : pattern;
 
-  const highlightHelper = function (node) {
+  const highlightHelper = node => {
     let skip = 0;
     if (node.nodeType === node.TEXT_NODE) {
       const pos = node.data.search(regex);
       if (pos >= 0 && node.data.length > 0) {
         const match = node.data.match(regex);
-        const spanNode = document.createElement("span");
-        spanNode.className = "highlight";
+        const spanNode = document.createElement('span');
+        spanNode.className = 'highlight';
         const middleBit = node.splitText(pos);
-        //const endBit = middleBit.splitText(match[0].length);
         middleBit.splitText(match[0].length);
         const middleClone = middleBit.cloneNode(true);
         spanNode.appendChild(middleClone);
@@ -37,8 +36,8 @@ const highlight = ($element, pattern) => {
       node.childNodes &&
       !/(script|style)/i.test(node.tagName)
     ) {
-      forEach(node.childNodes, node => {
-        highlightHelper(node);
+      forEach(node.childNodes, _node => {
+        highlightHelper(_node);
       });
     }
     return skip;
@@ -55,7 +54,7 @@ const highlight = ($element, pattern) => {
  */
 
 const removeHighlight = $element => {
-  $element.querySelectorAll("span.highlight").forEach($childElement => {
+  $element.querySelectorAll('span.highlight').forEach($childElement => {
     $childElement.parent.replaceChild($childElement.firstChild, $childElement);
   });
 };

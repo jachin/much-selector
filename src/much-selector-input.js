@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from 'lit-element';
 
 class MuchSelectorInput extends LitElement {
   static get styles() {
@@ -22,24 +22,23 @@ class MuchSelectorInput extends LitElement {
   }
 
   firstUpdated() {
-    const inputElement = this.shadowRoot.getElementById("text-input");
-    inputElement.addEventListener("focus", () => {
-      this.dispatchEvent(new Event("input-focus"));
+    const inputElement = this.shadowRoot.getElementById('text-input');
+    inputElement.addEventListener('focus', () => {
+      this.dispatchEvent(new Event('input-focus'));
     });
 
-    inputElement.addEventListener("blur", () => {
-      this.dispatchEvent(new Event("input-blur"));
+    inputElement.addEventListener('blur', () => {
+      this.dispatchEvent(new Event('input-blur'));
     });
 
-    inputElement.addEventListener("keydown", (e) => {
-      console.log("keydown", e.code, e.target.value);
+    inputElement.addEventListener('keydown', e => {
       const inputValue = e.target.value;
-      if (typeof inputValue !== "string") {
+      if (typeof inputValue !== 'string') {
         return;
       }
 
       this.dispatchEvent(
-        new CustomEvent("input-keydown", {
+        new CustomEvent('input-keydown', {
           detail: {
             query: inputValue,
           },
@@ -47,15 +46,14 @@ class MuchSelectorInput extends LitElement {
       );
     });
 
-    inputElement.addEventListener("keyup", (e) => {
-      console.log("keyup", e.code, e.target.value);
+    inputElement.addEventListener('keyup', e => {
       const inputValue = e.target.value;
-      if (typeof inputValue !== "string") {
+      if (typeof inputValue !== 'string') {
         return;
       }
 
       this.dispatchEvent(
-        new CustomEvent("input-keyup", {
+        new CustomEvent('input-keyup', {
           detail: {
             query: inputValue,
           },
@@ -66,7 +64,7 @@ class MuchSelectorInput extends LitElement {
 
   render() {
     const selectedValuesHtml = this.selectedValues.map(
-      (selectedValuePair) => html`<span>${selectedValuePair[1]}</span>`
+      selectedValuePair => html`<span>${selectedValuePair[1]}</span>`
     );
 
     return html` <div>

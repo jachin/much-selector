@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from 'lit-element';
 
 class MuchSelectorDropdownItem extends LitElement {
   static get styles() {
@@ -40,11 +40,11 @@ class MuchSelectorDropdownItem extends LitElement {
     this.highlighted = false;
     this.selected = false;
 
-    this.addEventListener("mouseover", () => {
+    this.addEventListener('mouseover', () => {
       this.highlighted = true;
     });
 
-    this.addEventListener("mouseout", () => {
+    this.addEventListener('mouseout', () => {
       this.highlighted = false;
     });
   }
@@ -53,9 +53,9 @@ class MuchSelectorDropdownItem extends LitElement {
     /**
      * TODO This needs to be a "mousedown" event and not a "click" event. Why is that?
      */
-    this.addEventListener("mousedown", () => {
+    this.addEventListener('mousedown', () => {
       this.dispatchEvent(
-        new CustomEvent("item-selected", {
+        new CustomEvent('item-selected', {
           bubbles: true,
           composed: true,
           detail: { itemValue: this.value },
@@ -68,21 +68,19 @@ class MuchSelectorDropdownItem extends LitElement {
     const classes = [];
 
     if (this.highlighted) {
-      classes.push("highlighted");
+      classes.push('highlighted');
     }
 
     if (this.selected) {
-      classes.push("selected");
+      classes.push('selected');
     }
 
-    return classes.join(" ");
+    return classes.join(' ');
   }
 
   render() {
     return html`
-      <div id="item" class=${this.cssClasses()}>
-        ${this.label}
-      </div>
+      <div id="item" class=${this.cssClasses()}>${this.label}</div>
     `;
   }
 }

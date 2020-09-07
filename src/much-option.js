@@ -1,4 +1,4 @@
-import { html, render } from "lit-html";
+import { html, render } from 'lit-html';
 
 class MuchOption {
   constructor(value) {
@@ -37,8 +37,8 @@ class MuchOption {
   }
 
   set selected(selected) {
-    if (typeof selected !== "boolean") {
-      throw "MuchOption index must be a boolean";
+    if (typeof selected !== 'boolean') {
+      throw new Error('MuchOption index must be a boolean');
     }
     this._selected = selected;
   }
@@ -48,8 +48,8 @@ class MuchOption {
   }
 
   set index(index) {
-    if (typeof index !== "number") {
-      throw "MuchOption index must be a number";
+    if (typeof index !== 'number') {
+      throw new Error('MuchOption index must be a number');
     }
     this._index = index;
   }
@@ -72,6 +72,11 @@ class MuchOption {
 
   get sifterIndex() {
     return this._sifterIndex;
+  }
+
+  resetSifterData() {
+    this._sifterIndex = null;
+    this._sifterScore = null;
   }
 }
 
