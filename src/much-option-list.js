@@ -1,5 +1,6 @@
 import { MuchOption } from './much-option.js';
 import { Sifter } from './sifter.js';
+import { highlight } from './highlight.js';
 
 class MuchOptionList {
   constructor() {
@@ -129,7 +130,10 @@ class MuchOptionList {
       option.sifterIndex = resultIndex;
       option.sifterScore = resultsItem.score;
 
+      console.log('query', query);
+      console.log('option', option);
       // TODO Do something with highlight here
+      // highlight(option.fancyLabel);
     });
 
     // Filter out all the options that don't match the search string at all.

@@ -9,12 +9,15 @@ import forEach from 'lodash-es/forEach';
  *
  * @param $element
  * @param pattern
+ * @return Element
  */
 
 const highlight = ($element, pattern) => {
-  if (isString(pattern) && isEmpty(pattern)) return;
+  if (isString(pattern) && isEmpty(pattern)) return $element;
 
   const regex = isString(pattern) ? new RegExp(pattern, 'i') : pattern;
+
+  const newElement = $element.cloneNode(true);
 
   const highlightHelper = node => {
     let skip = 0;
@@ -43,7 +46,8 @@ const highlight = ($element, pattern) => {
     return skip;
   };
 
-  highlightHelper($element);
+  highlightHelper(newElement);
+  return newElement;
 };
 
 /**
@@ -54,9 +58,11 @@ const highlight = ($element, pattern) => {
  */
 
 const removeHighlight = $element => {
-  $element.querySelectorAll('span.highlight').forEach($childElement => {
+  const newElement = $element.cloneNode(true);
+  newElement.querySelectorAll('span.highlight').forEach($childElement => {
     $childElement.parent.replaceChild($childElement.firstChild, $childElement);
   });
+  return newElement;
 };
 
 export { highlight, removeHighlight };
