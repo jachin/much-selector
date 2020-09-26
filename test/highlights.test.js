@@ -1,5 +1,10 @@
 import { expect, html, fixture } from '@open-wc/testing';
-import { highlight, removeHighlight } from '../src/highlight.js';
+import {
+  highlight,
+  removeHighlight,
+  parseForNeedle,
+  parseHaystackIntoTokens,
+} from '../src/highlight.js';
 
 describe('highlight', () => {
   it('highlights a string', async () => {
@@ -74,5 +79,43 @@ describe('removeHighlight', () => {
     expect(removeHighlight(selectElement)).dom.to.equal(
       '<select><option>Blue Flowers</option><option>Orange Flowers</option><option>Blue Sky</option></select>'
     );
+  });
+});
+
+describe('parseForNeedle', () => {
+  it('should find a single needle in a haystack', () => {
+    expect(parseForNeedle('b', 'abc')).to.have.ordered.members([1]);
+  });
+  it('should not find a needle in the haystack if its not there', () => {
+    expect(parseForNeedle('d', 'abc')).to.have.ordered.members([]);
+  });
+  it('should find more than 1 needle', () => {
+    expect(parseForNeedle('a', 'ababab')).to.have.ordered.members([0, 2, 4]);
+  });
+
+  it('should find needles of various lengths', () => {
+    expect(parseForNeedle('ab', 'ababab')).to.have.ordered.members([0, 2, 4]);
+    expect(parseForNeedle('aba', 'abababa')).to.have.ordered.members([0, 4]);
+    expect(
+      parseForNeedle('orange', 'red orange white blue orange')
+    ).to.have.ordered.members([4, 22]);
+  });
+});
+
+describe('parseHaystackIntoTokens', () => {
+  it('should parse a single token from a string that is only the token', () => {
+    expect(parseHaystackIntoTokens([0], 'aaa', 'aaa')).to.eql([
+      { needle: true, token: 'aaa' },
+    ]);
+  });
+
+  it('should parse a single token from a string that is only the token', () => {
+    expect(parseHaystackIntoTokens([0, 4, 8], 'aaa', 'aaa aaa aaa')).to.eql([
+      { needle: true, token: 'aaa' },
+      { needle: false, token: ' ' },
+      { needle: true, token: 'aaa' },
+      { needle: false, token: ' ' },
+      { needle: true, token: 'aaa' },
+    ]);
   });
 });

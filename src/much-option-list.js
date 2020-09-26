@@ -1,6 +1,5 @@
 import { MuchOption } from './much-option.js';
 import { Sifter } from './sifter.js';
-import { highlight } from './highlight.js';
 
 class MuchOptionList {
   constructor() {

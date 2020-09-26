@@ -48,6 +48,7 @@ class MuchSelector extends LitElement {
       options: { type: MuchOptionList },
       optionsToDisplay: { type: Array },
       showDropdown: { type: Boolean, attribute: false },
+      filterQuery: { type: String, attribute: false },
     };
   }
 
@@ -87,6 +88,7 @@ class MuchSelector extends LitElement {
 
     this.inputElement.addEventListener('input-keyup', e => {
       this.optionsToDisplay = this.options.search(e.detail.query);
+      this.filterQuery = e.detail.query;
     });
   }
 
@@ -101,6 +103,7 @@ class MuchSelector extends LitElement {
         value="${option.value}"
         label="${option.label}"
         ?selected=${option.selected}
+        filter-query="${this.filterQuery}"
       ></much-selector-dropdown-item>`;
     });
 

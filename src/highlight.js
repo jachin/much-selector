@@ -65,4 +65,62 @@ const removeHighlight = $element => {
   return newElement;
 };
 
-export { highlight, removeHighlight };
+const parseForNeedle = (needle, haystack) => {
+  // TODO Check that the params are strings
+  if (needle.length < 1) {
+    throw new Error('The needle needs to have a length of at least 1.');
+  }
+
+  if (haystack.length < 1) {
+    throw new Error('The haystack needs to have a length of at least 1.');
+  }
+  const needlePositions = [];
+  let nextIndex = haystack.indexOf(needle);
+  let needleLastIndex = 0;
+  while (nextIndex > -1) {
+    needlePositions.push(nextIndex);
+    needleLastIndex = nextIndex + needle.length;
+    nextIndex = haystack.indexOf(needle, needleLastIndex);
+  }
+
+  return needlePositions;
+};
+
+const parseHaystackIntoTokens = (needlePositions, needle, haystack) => {
+  let stack = [];
+  const tokens = [];
+  let currentToken = '';
+  for (let i = 0; i < haystack.length; i += 1) {
+    if (needlePositions.includes(i)) {
+      if (currentToken.length > 0) {
+        tokens.push({ needle: false, token: currentToken });
+      }
+      currentToken = haystack[i];
+      stack.push(1);
+    } else {
+      currentToken = `${currentToken}${haystack[i]}`;
+    }
+
+    if (stack.length > 0) {
+      if (stack[stack.length - 1] === needle.length) {
+        // We found the end of the needle. Reset the stack and the
+        //  current token and save the current token as a needle.
+        stack = [];
+        tokens.push({ needle: true, token: currentToken });
+        currentToken = '';
+      } else {
+        stack.push(stack[stack.length - 1] + 1);
+      }
+    }
+    if (i === haystack.length - 1 && currentToken.length > 0) {
+      // If we are at the end of the haystack and we have a token
+      //  left we know it's not part of a needle and we do not want
+      //  to lose it
+      tokens.push({ needle: false, token: currentToken });
+    }
+  }
+
+  return tokens;
+};
+
+export { highlight, removeHighlight, parseForNeedle, parseHaystackIntoTokens };
