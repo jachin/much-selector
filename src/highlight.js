@@ -1,6 +1,7 @@
-import isString from 'lodash-es/isString';
 import isEmpty from 'lodash-es/isEmpty';
 import forEach from 'lodash-es/forEach';
+
+const isString = a => typeof a === 'string';
 
 /**
  * Looks for a text pattern in an element (and it's children) and modifies
@@ -66,13 +67,18 @@ const removeHighlight = $element => {
 };
 
 const parseForNeedle = (needle, haystack) => {
-  // TODO Check that the params are strings
+  if (!isString(needle)) {
+    throw new TypeError('The needle needs to be a string.');
+  }
+  if (!isString(haystack)) {
+    throw new TypeError('The haystack needs to be a string.');
+  }
   if (needle.length < 1) {
-    throw new Error('The needle needs to have a length of at least 1.');
+    throw new TypeError('The needle needs to have a length of at least 1.');
   }
 
   if (haystack.length < 1) {
-    throw new Error('The haystack needs to have a length of at least 1.');
+    throw new TypeError('The haystack needs to have a length of at least 1.');
   }
   const needlePositions = [];
   let nextIndex = haystack.indexOf(needle);

@@ -83,6 +83,18 @@ describe('removeHighlight', () => {
 });
 
 describe('parseForNeedle', () => {
+  describe('arguments', () => {
+    it('needle must be correct', () => {
+      expect(() => parseForNeedle(5, 'qwer')).to.throw(TypeError);
+      expect(() => parseForNeedle('', 'qwer')).to.throw(TypeError);
+    });
+
+    it('haystack must be correct', () => {
+      expect(() => parseForNeedle('asdf', 5)).to.throw(TypeError);
+      expect(() => parseForNeedle('asdf', '')).to.throw(TypeError);
+    });
+  });
+
   it('should find a single needle in a haystack', () => {
     expect(parseForNeedle('b', 'abc')).to.have.ordered.members([1]);
   });
@@ -92,6 +104,9 @@ describe('parseForNeedle', () => {
   it('should find more than 1 needle', () => {
     expect(parseForNeedle('a', 'ababab')).to.have.ordered.members([0, 2, 4]);
   });
+  it('should find the needle even if the case is different', () => {
+    expect(parseForNeedle('a', 'ABABAB')).to.have.ordered.members([0, 2, 4]);
+  });
 
   it('should find needles of various lengths', () => {
     expect(parseForNeedle('ab', 'ababab')).to.have.ordered.members([0, 2, 4]);
@@ -99,6 +114,8 @@ describe('parseForNeedle', () => {
     expect(
       parseForNeedle('orange', 'red orange white blue orange')
     ).to.have.ordered.members([4, 22]);
+
+    expect(parseForNeedle('aaa', 'aaaaa')).to.have.ordered.members([0]);
   });
 });
 
@@ -109,7 +126,7 @@ describe('parseHaystackIntoTokens', () => {
     ]);
   });
 
-  it('should parse a single token from a string that is only the token', () => {
+  it('should parse a string with multiple tokens', () => {
     expect(parseHaystackIntoTokens([0, 4, 8], 'aaa', 'aaa aaa aaa')).to.eql([
       { needle: true, token: 'aaa' },
       { needle: false, token: ' ' },
