@@ -92,12 +92,15 @@ const parseHaystackIntoTokens = (needlePositions, needle, haystack) => {
   let currentToken = '';
   for (let i = 0; i < haystack.length; i += 1) {
     if (needlePositions.includes(i)) {
+      // We found the start of the next needle.
       if (currentToken.length > 0) {
         tokens.push({ needle: false, token: currentToken });
       }
       currentToken = haystack[i];
       stack.push(1);
     } else {
+      // We found the next piece of something that's in the middle
+      // of a needle or the hay.
       currentToken = `${currentToken}${haystack[i]}`;
     }
 
