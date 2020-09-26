@@ -76,17 +76,18 @@ const parseForNeedle = (needle, haystack) => {
   if (needle.length < 1) {
     throw new TypeError('The needle needs to have a length of at least 1.');
   }
-
   if (haystack.length < 1) {
     throw new TypeError('The haystack needs to have a length of at least 1.');
   }
+  const needleNormalized = needle.toLowerCase();
+  const haystackNormalized = haystack.toLowerCase();
   const needlePositions = [];
-  let nextIndex = haystack.indexOf(needle);
+  let nextIndex = haystackNormalized.indexOf(needleNormalized);
   let needleLastIndex = 0;
   while (nextIndex > -1) {
     needlePositions.push(nextIndex);
-    needleLastIndex = nextIndex + needle.length;
-    nextIndex = haystack.indexOf(needle, needleLastIndex);
+    needleLastIndex = nextIndex + needleNormalized.length;
+    nextIndex = haystackNormalized.indexOf(needleNormalized, needleLastIndex);
   }
 
   return needlePositions;
