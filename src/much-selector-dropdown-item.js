@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import Mark from 'mark.js/src/lib/mark';
+import { parse } from './highlight.js';
 
 class MuchSelectorDropdownItem extends LitElement {
   static get styles() {
@@ -82,15 +82,19 @@ class MuchSelectorDropdownItem extends LitElement {
 
   render() {
     if (this.filterQuery.length > 0) {
-      const labelWithHighlights = this.label.replace(
-        this.filterQuery,
-        "$`<mark>$&</mark>$'"
-      );
+      const tokens = parse(this.filterQuery, this.label);
+
+      const makeLabelPart = token => {
+        if (token.needle) {
+          return html`<mark>${token.token}</mark>`;
+        }
+        return html`${token.token}`;
+      };
+
+      const labelWithHighlights = html`${tokens.map(makeLabelPart)}`;
 
       return html`
-        <div id="item" class=${this.cssClasses()}>
-          ${html(labelWithHighlights)}
-        </div>
+        <div id="item" class=${this.cssClasses()}>${labelWithHighlights}</div>
       `;
     }
 

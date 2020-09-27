@@ -128,11 +128,6 @@ class MuchOptionList {
       const option = arrayOfOptions[resultsItem.id];
       option.sifterIndex = resultIndex;
       option.sifterScore = resultsItem.score;
-
-      console.log('query', query);
-      console.log('option', option);
-      // TODO Do something with highlight here
-      // highlight(option.fancyLabel);
     });
 
     // Filter out all the options that don't match the search string at all.

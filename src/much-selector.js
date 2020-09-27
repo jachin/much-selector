@@ -57,6 +57,7 @@ class MuchSelector extends LitElement {
     this.options = new MuchOptionList();
     this.optionsToDisplay = [];
     this.showDropdown = false;
+    this.filterQuery = '';
   }
 
   firstUpdated() {

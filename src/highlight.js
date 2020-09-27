@@ -133,4 +133,13 @@ const parseHaystackIntoTokens = (needlePositions, needle, haystack) => {
   return tokens;
 };
 
-export { highlight, removeHighlight, parseForNeedle, parseHaystackIntoTokens };
+const parse = (needle, haystack) =>
+  parseHaystackIntoTokens(parseForNeedle(needle, haystack), needle, haystack);
+
+export {
+  highlight,
+  removeHighlight,
+  parseForNeedle,
+  parseHaystackIntoTokens,
+  parse,
+};
