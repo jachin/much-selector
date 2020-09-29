@@ -50,6 +50,15 @@ class MuchSelectorInput extends LitElement {
       if (e.code === 'Escape') {
         inputElement.blur();
         inputElement.value = '';
+        return;
+      }
+      if (e.code === 'ArrowDown') {
+        this.dispatchEvent(new CustomEvent('move-highlighted-down'));
+        return;
+      }
+      if (e.code === 'ArrowUp') {
+        this.dispatchEvent(new CustomEvent('move-highlighted-up'));
+        return;
       }
       const inputValue = e.target.value;
       if (typeof inputValue !== 'string') {

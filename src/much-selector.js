@@ -87,6 +87,44 @@ class MuchSelector extends LitElement {
 
     this.addEventListener('item-selected', this.itemSelectedHandler);
 
+    this.inputElement.addEventListener('move-highlighted-down', () => {
+      const highlightedItem = this.shadowRoot.querySelector(
+        'much-selector-dropdown-item[highlighted="true"]'
+      );
+      if (highlightedItem) {
+        const nextItem = highlightedItem.nextElementSibling;
+        if (nextItem) {
+          highlightedItem.removeAttribute('highlighted');
+          nextItem.setAttribute('highlighted', true);
+        }
+      } else {
+        // If the user hits the down arrow and there is no highlighted item, just select the first one.
+        const firstItem = this.shadowRoot.querySelector(
+          'much-selector-dropdown-item'
+        );
+        firstItem.setAttribute('highlighted', true);
+      }
+    });
+
+    this.inputElement.addEventListener('move-highlighted-up', () => {
+      const highlightedItem = this.shadowRoot.querySelector(
+        'much-selector-dropdown-item[highlighted="true"]'
+      );
+      if (highlightedItem) {
+        const previousItem = highlightedItem.previousElementSibling;
+        if (previousItem) {
+          highlightedItem.removeAttribute('highlighted');
+          previousItem.setAttribute('highlighted', true);
+        }
+      } else {
+        // If the user hits the up arrow and there is no highlighted item, just select the first one.
+        const firstItem = this.shadowRoot.querySelector(
+          'much-selector-dropdown-item'
+        );
+        firstItem.setAttribute('highlighted', true);
+      }
+    });
+
     this.inputElement.addEventListener('input-keyup', e => {
       this.optionsToDisplay = this.options.search(e.detail.query);
       this.filterQuery = e.detail.query;
