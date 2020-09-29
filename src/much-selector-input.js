@@ -47,6 +47,10 @@ class MuchSelectorInput extends LitElement {
     });
 
     inputElement.addEventListener('keyup', e => {
+      if (e.code === 'Escape') {
+        inputElement.blur();
+        inputElement.value = '';
+      }
       const inputValue = e.target.value;
       if (typeof inputValue !== 'string') {
         return;
