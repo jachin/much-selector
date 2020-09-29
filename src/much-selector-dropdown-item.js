@@ -29,7 +29,7 @@ class MuchSelectorDropdownItem extends LitElement {
     return {
       value: { type: String },
       label: { type: String },
-      highlighted: { type: Boolean },
+      highlighted: { type: Boolean, attribute: 'highlighted' },
       selected: { type: Boolean },
       filterQuery: { type: String, attribute: 'filter-query' },
     };
@@ -43,11 +43,19 @@ class MuchSelectorDropdownItem extends LitElement {
     this.selected = false;
 
     this.addEventListener('mouseover', () => {
-      this.highlighted = true;
+      this.setAttribute('highlighted', true);
+      this.dispatchEvent(
+        new CustomEvent('item-highlighted', {
+          bubbles: true,
+          detail: {
+            value: this.value,
+          },
+        })
+      );
     });
 
     this.addEventListener('mouseout', () => {
-      this.highlighted = false;
+      this.removeAttribute('highlighted');
     });
   }
 
