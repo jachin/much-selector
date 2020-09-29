@@ -87,6 +87,17 @@ class MuchSelector extends LitElement {
 
     this.addEventListener('item-selected', this.itemSelectedHandler);
 
+    // Listen for item highlighted events, there should only be 1 highlighted item at a time.
+    this.shadowRoot.addEventListener('item-highlighted', e => {
+      this.shadowRoot
+        .querySelectorAll('much-selector-dropdown-item[highlighted="true"]')
+        .forEach(i => {
+          if (i.value !== e.detail.value) {
+            i.removeAttribute('highlighted');
+          }
+        });
+    });
+
     this.inputElement.addEventListener('move-highlighted-down', () => {
       const highlightedItem = this.shadowRoot.querySelector(
         'much-selector-dropdown-item[highlighted="true"]'

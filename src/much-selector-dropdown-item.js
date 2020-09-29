@@ -44,6 +44,14 @@ class MuchSelectorDropdownItem extends LitElement {
 
     this.addEventListener('mouseover', () => {
       this.setAttribute('highlighted', true);
+      this.dispatchEvent(
+        new CustomEvent('item-highlighted', {
+          bubbles: true,
+          detail: {
+            value: this.value,
+          },
+        })
+      );
     });
 
     this.addEventListener('mouseout', () => {
