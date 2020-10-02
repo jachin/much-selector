@@ -101,6 +101,11 @@ class MuchSelectorInput extends LitElement {
       <input type="text" id="text-input" />
     </div>`;
   }
+
+  clear() {
+    const inputElement = this.shadowRoot.querySelector('input');
+    inputElement.value = '';
+  }
 }
 
 export { MuchSelectorInput };

@@ -145,6 +145,7 @@ class MuchSelector extends LitElement {
   itemSelectedHandler(event) {
     this.options.selectOneByValue(event.detail.itemValue);
     this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
+    this.inputElement.clear();
   }
 
   render() {
