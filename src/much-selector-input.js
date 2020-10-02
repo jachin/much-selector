@@ -60,6 +60,22 @@ class MuchSelectorInput extends LitElement {
         this.dispatchEvent(new CustomEvent('move-highlighted-up'));
         return;
       }
+      if (e.code === 'Enter') {
+        const selectedItem = this.parentNode.querySelector(
+          "much-selector-dropdown-item[highlighted='true']"
+        );
+        if (selectedItem) {
+          this.dispatchEvent(
+            new CustomEvent('item-selected', {
+              bubbles: true,
+              composed: true,
+              detail: { itemValue: selectedItem.value },
+            })
+          );
+        }
+        return;
+      }
+
       const inputValue = e.target.value;
       if (typeof inputValue !== 'string') {
         return;
