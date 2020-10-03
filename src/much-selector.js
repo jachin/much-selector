@@ -145,6 +145,12 @@ class MuchSelector extends LitElement {
   itemSelectedHandler(event) {
     this.options.selectOneByValue(event.detail.itemValue);
     this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
+    this.inputElement.clear();
+    // TODO only blur the input if we're selecting a single value at a time.
+    this.inputElement.blur();
+
+    this.optionsToDisplay = this.options.search('');
+    this.filterQuery = '';
   }
 
   render() {
