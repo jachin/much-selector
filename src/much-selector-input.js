@@ -106,6 +106,11 @@ class MuchSelectorInput extends LitElement {
     const inputElement = this.shadowRoot.querySelector('input');
     inputElement.value = '';
   }
+
+  blur() {
+    const inputElement = this.shadowRoot.querySelector('input');
+    inputElement.blur();
+  }
 }
 
 export { MuchSelectorInput };
