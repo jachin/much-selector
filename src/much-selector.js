@@ -49,6 +49,7 @@ class MuchSelector extends LitElement {
       optionsToDisplay: { type: Array },
       showDropdown: { type: Boolean, attribute: false },
       filterQuery: { type: String, attribute: false },
+      allowMultiple: { type: Boolean, attribute: 'multiple', reflect: true },
     };
   }
 
