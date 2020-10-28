@@ -13,12 +13,14 @@ class MuchSelectorInput extends LitElement {
   static get properties() {
     return {
       selectedValues: { type: Array },
+      allowMultiple: { type: Boolean, attribute: 'multiple', reflect: true },
     };
   }
 
   constructor() {
     super();
     this.selectedValues = [];
+    this.allowMultiple = false;
   }
 
   firstUpdated() {
@@ -89,11 +91,34 @@ class MuchSelectorInput extends LitElement {
         })
       );
     });
+
+    this.shadowRoot.addEventListener('click', evt => {
+      if (evt.target.classList.contains('delete-button')) {
+        evt.preventDefault();
+        this.dispatchEvent(
+          new CustomEvent('item-deselected', {
+            bubbles: true,
+            composed: true,
+            detail: { itemValue: evt.target.dataset.value },
+          })
+        );
+      }
+    });
   }
 
   render() {
+    const makeSelectedValueDeleteButton = value =>
+      html`<a href="#" class="delete-button" data-value="${value}">x</a>`;
+
     const selectedValuesHtml = this.selectedValues.map(
-      selectedValuePair => html`<span>${selectedValuePair[1]}</span>`
+      selectedValuePair => html`
+        <span>
+          ${selectedValuePair[1]}
+          ${this.allowMultiple
+            ? makeSelectedValueDeleteButton(selectedValuePair[0])
+            : html``}
+        </span>
+      `
     );
 
     return html` <div>
