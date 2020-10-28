@@ -49,6 +49,7 @@ class MuchSelector extends LitElement {
       optionsToDisplay: { type: Array },
       showDropdown: { type: Boolean, attribute: false },
       filterQuery: { type: String, attribute: false },
+      allowMultiple: { type: Boolean, attribute: 'multiple', reflect: true },
     };
   }
 
@@ -58,6 +59,7 @@ class MuchSelector extends LitElement {
     this.optionsToDisplay = [];
     this.showDropdown = false;
     this.filterQuery = '';
+    this.allowMultiple = false;
   }
 
   firstUpdated() {
@@ -86,6 +88,7 @@ class MuchSelector extends LitElement {
     });
 
     this.addEventListener('item-selected', this.itemSelectedHandler);
+    this.addEventListener('item-deselected', this.itemDeselectedHandler);
 
     // Listen for item highlighted events, there should only be 1 highlighted item at a time.
     this.shadowRoot.addEventListener('item-highlighted', e => {
@@ -143,14 +146,25 @@ class MuchSelector extends LitElement {
   }
 
   itemSelectedHandler(event) {
-    this.options.selectOneByValue(event.detail.itemValue);
+    if (this.allowMultiple) {
+      this.options.selectByValue(event.detail.itemValue);
+    } else {
+      this.options.selectOneByValue(event.detail.itemValue);
+    }
+
     this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
     this.inputElement.clear();
-    // TODO only blur the input if we're selecting a single value at a time.
-    this.inputElement.blur();
+    if (!this.allowMultiple) {
+      this.inputElement.blur();
+    }
 
     this.optionsToDisplay = this.options.search('');
     this.filterQuery = '';
+  }
+
+  itemDeselectedHandler(event) {
+    this.options.deselectOptionByValue(event.detail.itemValue);
+    this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
   }
 
   render() {
@@ -168,7 +182,10 @@ class MuchSelector extends LitElement {
     const dropdownStyles = { top: `${rect.bottom}.px`, left: `${rect.left}` };
 
     return html`
-      <much-selector-input id="input"></much-selector-input>
+      <much-selector-input
+        id="input"
+        ?multiple=${this.allowMultiple}
+      ></much-selector-input>
       <much-selector-dropdown
         id="dropdown"
         ?visible=${this.showDropdown}
