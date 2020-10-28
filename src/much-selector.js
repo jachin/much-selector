@@ -59,6 +59,7 @@ class MuchSelector extends LitElement {
     this.optionsToDisplay = [];
     this.showDropdown = false;
     this.filterQuery = '';
+    this.allowMultiple = false;
   }
 
   firstUpdated() {
@@ -144,11 +145,17 @@ class MuchSelector extends LitElement {
   }
 
   itemSelectedHandler(event) {
-    this.options.selectOneByValue(event.detail.itemValue);
+    if (this.allowMultiple) {
+      this.options.selectByValue(event.detail.itemValue);
+    } else {
+      this.options.selectOneByValue(event.detail.itemValue);
+    }
+
     this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
     this.inputElement.clear();
-    // TODO only blur the input if we're selecting a single value at a time.
-    this.inputElement.blur();
+    if (!this.allowMultiple) {
+      this.inputElement.blur();
+    }
 
     this.optionsToDisplay = this.options.search('');
     this.filterQuery = '';
