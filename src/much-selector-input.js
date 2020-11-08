@@ -26,6 +26,7 @@ class MuchSelectorInput extends LitElement {
     super();
     this.selectedValues = [];
     this.allowMultiple = false;
+    this.allowUserDefinedValues = false;
   }
 
   firstUpdated() {
@@ -77,6 +78,14 @@ class MuchSelectorInput extends LitElement {
               bubbles: true,
               composed: true,
               detail: { itemValue: selectedItem.value },
+            })
+          );
+        } else if (this.allowUserDefinedValues) {
+          this.dispatchEvent(
+            new CustomEvent('user-defined-value-selected', {
+              bubbles: true,
+              composed: true,
+              detail: { value: inputElement.value },
             })
           );
         }

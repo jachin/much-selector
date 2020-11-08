@@ -93,6 +93,10 @@ class MuchSelector extends LitElement {
 
     this.addEventListener('item-selected', this.itemSelectedHandler);
     this.addEventListener('item-deselected', this.itemDeselectedHandler);
+    this.addEventListener(
+      'user-defined-value-selected',
+      this.userDefinedValueSelectedHandler
+    );
 
     // Listen for item highlighted events, there should only be 1 highlighted item at a time.
     this.shadowRoot.addEventListener('item-highlighted', e => {
@@ -171,6 +175,24 @@ class MuchSelector extends LitElement {
     this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
   }
 
+  userDefinedValueSelectedHandler(event) {
+    if (!this.allowUserDefinedValues) return;
+
+    const option = new MuchOption(event.detail.value);
+
+    this.options.addStrict(option);
+    this.options.selectOption(option);
+
+    this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
+    this.inputElement.clear();
+    if (!this.allowMultiple) {
+      this.inputElement.blur();
+    }
+
+    this.optionsToDisplay = this.options.search('');
+    this.filterQuery = '';
+  }
+
   render() {
     const optionTemplates = this.optionsToDisplay.map(option => {
       return html`<much-selector-dropdown-item
@@ -189,7 +211,7 @@ class MuchSelector extends LitElement {
       <much-selector-input
         id="input"
         ?multiple=${this.allowMultiple}
-        ?user-defined=${this.allowUserDefinedValues}
+        ?user-values=${this.allowUserDefinedValues}
       ></much-selector-input>
       <much-selector-dropdown
         id="dropdown"
