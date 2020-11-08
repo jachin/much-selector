@@ -65,6 +65,7 @@ class MuchSelector extends LitElement {
     this.showDropdown = false;
     this.filterQuery = '';
     this.allowMultiple = false;
+    this.allowUserDefinedValues = false;
   }
 
   firstUpdated() {
@@ -81,8 +82,6 @@ class MuchSelector extends LitElement {
 
     this.inputElement = this.shadowRoot.getElementById('input');
     this.inputElement.selectedValues = this.options.selectedOptionValueLabelPairs;
-
-    this.dropdownElement = this.shadowRoot.getElementById('dropdown');
 
     this.inputElement.addEventListener('input-focus', () => {
       this.showDropdown = true;
@@ -190,6 +189,7 @@ class MuchSelector extends LitElement {
       <much-selector-input
         id="input"
         ?multiple=${this.allowMultiple}
+        ?user-defined=${this.allowUserDefinedValues}
       ></much-selector-input>
       <much-selector-dropdown
         id="dropdown"

@@ -14,6 +14,11 @@ class MuchSelectorInput extends LitElement {
     return {
       selectedValues: { type: Array },
       allowMultiple: { type: Boolean, attribute: 'multiple', reflect: true },
+      allowUserDefinedValues: {
+        type: Boolean,
+        attribute: 'user-values',
+        reflect: true,
+      },
     };
   }
 
