@@ -25,17 +25,17 @@
     "lodash-es": "^4.17.15"
   },
   "devDependencies": {
-    "@open-wc/building-rollup": "^1.9.3",
-    "@open-wc/demoing-storybook": "^2.4.5",
-    "@open-wc/eslint-config": "^3.0.0",
-    "@open-wc/testing": "^2.5.29",
+    "@open-wc/building-rollup": "^1.9.4",
+    "@open-wc/demoing-storybook": "^2.4.7",
+    "@open-wc/eslint-config": "^4.0.1",
+    "@open-wc/testing": "^2.5.32",
     "@open-wc/testing-karma": "^4.0.9",
     "deepmerge": "^4.2.2",
     "es-dev-server": "^1.57.8",
-    "eslint": "^7.11.0",
-    "eslint-config-prettier": "^6.13.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
     "husky": "^4.3.0",
-    "lint-staged": "^10.4.2",
+    "lint-staged": "^10.5.1",
     "prettier": "^2.1.2"
   },
   "eslintConfig": {
