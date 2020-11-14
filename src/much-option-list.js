@@ -94,6 +94,13 @@ class MuchOptionList {
     return selectedOptions;
   }
 
+  isOptionSelected(option) {
+    const index = this.selectedOptions.findIndex(
+      selectedOption => selectedOption.value === option.value
+    );
+    return index > -1;
+  }
+
   // TODO make this "pair" thing a type.
   get selectedOptionValueLabelPairs() {
     const selectedValueLabelPairs = [];

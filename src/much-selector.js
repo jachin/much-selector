@@ -195,6 +195,11 @@ class MuchSelector extends LitElement {
 
   render() {
     const optionTemplates = this.optionsToDisplay.map(option => {
+      if (this.allowMultiple && this.options.isOptionSelected(option)) {
+        // If we are allowing multiple values to be selected don't display
+        //  options we have already selected.
+        return html``;
+      }
       return html`<much-selector-dropdown-item
         value="${option.value}"
         label="${option.label}"
